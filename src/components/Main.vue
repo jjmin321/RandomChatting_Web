@@ -1,37 +1,65 @@
 <template>
   <div>
-    <hr>
-    <button class="login-btn" @click="logIn(name, pw)">로그인</button>
+    <header class="header">
+      <div class="header-container">
+        <button class="login-btn" @click="loginModalOpen">로그인</button>
+      </div>
+    </header>
     <div class="first">
       <img class="background-img" src="../static/background.svg" />
       <div class="first-box">
         <div class="first-content">
           심심한 새끼들을 위한 거
           <h1> 대소고 랜덤채팅 </h1>
-          <button class="start-btn" onclick="location.href ='chatting'">
+          <button class="start-btn" onclick="location.href='chatting'">
           시작하기
           </button>
         </div>
       </div>
     </div>
+    <login-modal v-if="loginModal" @onClose="loginModalClose" />
   </div>
 </template>
 
 <script>
+import LoginModal from "@/components/LoginModal";
+
 export default {
     name : "MainVue",
     data: function(){
         return {
+          loginModal: false
         }
     },
-    methods: function() {
-      
+    components: {
+      LoginModal
+    },
+    methods: {
+      loginModalOpen() {
+        this.loginModal = true;
+      },
+      loginModalClose() {
+        this.loginModal = false;
+      }
     }
 }
 </script>
 
-<style>
+<style lang="scss">
   
+  .header {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid gray;
+    &-container {
+      display: flex;
+      width: 100%;
+      max-width: 1100px;
+      padding: 1.5rem 1rem;
+      justify-content: flex-end;
+    }
+  }
+
   .first {
     display: flex;
     width: 100%;
@@ -56,6 +84,7 @@ export default {
     font-size: 2rem;
     flex-grow: 1;
     animation: image-move 2.5s 0s;
+    z-index: 0;
   }
   .background-img {
     width: 100%;
@@ -78,10 +107,10 @@ export default {
     font-weight: bold;
     display : flex;
     justify-content: center;
-    align-items:center;
+    align-items:center;;
     align-self: center;
     animation: image-move 3s 0s;
-    box-shadow: 0px 20px 10px -10px rgba(154, 66, 255, 0.9);
+    box-shadow: 0px 3px 10px rgba(154, 66, 255, 0.9);
   }
   .start-btn {
      width: 160px;
@@ -98,7 +127,7 @@ export default {
     justify-content: center;
     align-items:center;
     align-self: center;
-    box-shadow: 0px 20px 10px -10px rgba(154, 66, 255, 0.9);
+    box-shadow: 0px 3px 10px  rgba(154, 66, 255, 0.9);
   }
   @keyframes image-move {
     0% {
