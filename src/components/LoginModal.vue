@@ -7,11 +7,12 @@
                 <span>ID</span>
                 <input v-model="id" type="text" placeholder="아이디를 입력해주세요." autofocus />
             </div>
-
             <div class="login-modal-box-form">
                 <span>PW</span>
                 <input v-model="pw" type="text" placeholder="비밀번호를 입력해주세요." />
             </div>
+                <button class="login-modal-box-submit">로그인</button>                
+                <div class="login-modal-box-forgot-password">비밀번호 찾는 법</div>
         </div>
   </div>
 </template>
@@ -30,12 +31,10 @@ export default {
             this.$emit("onClose");
         }
     }
-
 }
 </script>
 
 <style lang="scss">
-
 .login-modal {
     position: fixed;
     top: 0;
@@ -63,6 +62,7 @@ export default {
         background-color: white;
         padding: 2rem;
         width: 30rem;
+        height: 20rem;
         &-title {
             font-size: 1.3rem;
         }
@@ -80,7 +80,34 @@ export default {
                 }
             }
         }
+        &-submit {
+          width: 90px;
+          height: 40px;
+          background-color: #36bc9b;
+          color: white;
+          margin-top: 1.5em;
+          border: none;
+          transition: all .3s ease;
+          cursor: pointer;
+          font-size: 14px;
+          font-weight: bold;
+          display : flex;
+          justify-content: center;
+          align-items:center;
+          align-self: center;
+        }
     }
 }
 
+button{
+    border-top-left-radius: 5px; 
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: lightblue;
+  }
+  
+  button:hover{
+    background-color:purple;
+  }
 </style>
