@@ -12,7 +12,6 @@
                 <input v-model="pw" type="text" placeholder="비밀번호를 입력해주세요." />
             </div>
                 <button class="login-modal-box-submit">로그인</button>                
-                <div class="login-modal-box-forgot-password">비밀번호 찾는 법</div>
         </div>
   </div>
 </template>
