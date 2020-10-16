@@ -4,11 +4,11 @@
         <div class="login-modal-box">
             <h3 class="login-modal-box-title">로그인</h3>
             <div class="login-modal-box-form">
-                <span>ID</span>
+                <span>아이디</span>
                 <input v-model="id" type="text" placeholder="아이디를 입력해주세요." autofocus />
             </div>
             <div class="login-modal-box-form">
-                <span>PW</span>
+                <span>비밀번호</span>
                 <input v-model="pw" type="text" placeholder="비밀번호를 입력해주세요." />
             </div>
                 <button class="login-modal-box-submit" @click="login">로그인</button>                
