@@ -17,17 +17,33 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name: "signup-modal",
     data: () => {
         return {
             id: "",
-            pw: ""
+            pw: "",
+            name: ""
         }
     },
     methods: {
         onClose() {
             this.$emit("onClose");
+        },
+        signup: function(id, pw, name) {
+            axios.post("http://localhost:80/signUp", {
+                id: this.id,
+                pw: this.pw,
+                name: this.name
+                
+            })
+            .then((Response) => {
+                console.log("회원가입 성공")
+            })
+            .catch(() => {
+                console.log("회원가입 실패")
+            })
         }
     }
 }
