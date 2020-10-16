@@ -3,6 +3,7 @@
     <header class="header">
       <div class="header-container">
         <button class="login-btn" @click="loginModalOpen">로그인</button>
+        <button class="signup-btn" @click="signupModalOpen">회원가입</button>
       </div>
     </header>
     <div class="first">
@@ -18,21 +19,25 @@
       </div>
     </div>
     <login-modal v-if="loginModal" @onClose="loginModalClose" />
+    <signup-modal v-if="signupModal" @onClose="signupModalClose" />
   </div>
 </template>
 
 <script>
 import LoginModal from "@/components/LoginModal";
+import SignupModal from "@/components/SignupModal";
 
 export default {
     name : "MainVue",
     data: function(){
         return {
-          loginModal: false
+          loginModal: false,
+          signupModal: false
         }
     },
     components: {
-      LoginModal
+      LoginModal,
+      SignupModal
     },
     methods: {
       loginModalOpen() {
@@ -40,6 +45,12 @@ export default {
       },
       loginModalClose() {
         this.loginModal = false;
+      },
+      signupModalOpen() {
+        this.signupModal = true;
+      },
+      signupModalClose() {
+        this.signupModal = false;
       }
     }
 }
@@ -95,11 +106,30 @@ export default {
     animation: image-move 5s 0s;
   }
   .login-btn {
-    width: 95px;
-    height: 30px;
+    width: 100px;
+    height: 40px;
      background-color: #7600FF;
     color: white;
-    padding: 1.5em 3em;
+    padding: 1.5em 2em;
+    border: none;
+    transition: all .3s ease;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+    display : flex;
+    justify-content: center;
+    align-items:center;;
+    align-self: center;
+    animation: image-move 3s 0s;
+    box-shadow: 0px 3px 10px rgba(154, 66, 255, 0.9);
+  }
+  .signup-btn {
+    width: 100px;
+    height: 40px;
+    background-color: #7600FF;
+    margin-left: 10px;
+    color: white;
+    padding: 1.5em 2em;
     border: none;
     transition: all .3s ease;
     cursor: pointer;
