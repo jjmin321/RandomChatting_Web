@@ -11,12 +11,13 @@
                 <span>PW</span>
                 <input v-model="pw" type="text" placeholder="비밀번호를 입력해주세요." />
             </div>
-                <button class="login-modal-box-submit">로그인</button>                
+                <button class="login-modal-box-submit" @click="login">로그인</button>                
         </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name: "login-modal",
     data: () => {
@@ -28,6 +29,18 @@ export default {
     methods: {
         onClose() {
             this.$emit("onClose");
+        },
+        login: function(id, pw) {
+            axios.post("http://localhost:80/signIn", {
+                id: this.id,
+                pw: this.pw
+            })
+            .then((Response) => {
+                console.log("hi")
+            })
+            .catch(() => {
+                console.log("sibal")
+            })
         }
     }
 }
