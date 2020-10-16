@@ -18,6 +18,8 @@
 
 <script>
 import axios from 'axios'
+import swal from 'sweetalert2';
+
 export default {
     name: "login-modal",
     data: () => {
@@ -36,10 +38,19 @@ export default {
                 pw: this.pw
             })
             .then((Response) => {
-                console.log("hi")
+                swal.fire({
+                    icon: 'success', 
+                    title: '로그인 성공',
+                    timer: 1000
+                })
+                this.onClose()
             })
-            .catch(() => {
-                console.log("sibal")
+            .catch(() => {             
+                swal.fire({
+                    icon: 'error',
+                    title: '로그인 실패',
+                    text: '존재하지 않는 회원입니다',
+                })
             })
         }
     }
