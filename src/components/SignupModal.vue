@@ -4,14 +4,18 @@
         <div class="signup-modal-box">
             <h3 class="signup-modal-box-title">회원가입</h3>
             <div class="signup-modal-box-form">
-                <span>ID</span>
-                <input v-model="id" type="text" placeholder="아이디를 입력해주세요." autofocus />
+                <span>아이디</span>
+                <input v-model="id" type="text" placeholder="사용할 아이디를 입력해주세요." autofocus />
             </div>
             <div class="signup-modal-box-form">
-                <span>PW</span>
-                <input v-model="pw" type="text" placeholder="비밀번호를 입력해주세요." />
+                <span>비밀번호</span>
+                <input v-model="pw" type="text" placeholder="사용할 비밀번호를 입력해주세요." />
             </div>
-                <button class="signup-modal-box-submit">회원가입</button>                
+            <div class="signup-modal-box-form">
+                <span>닉네임</span>
+                <input v-model="name" type="text" placeholder="사용할 닉네임을 입력해주세요." />
+            </div>
+                <button class="signup-modal-box-submit" @click="signup">회원가입</button>                
         </div>
   </div>
 </template>
@@ -77,7 +81,7 @@ export default {
         background-color: white;
         padding: 2rem;
         width: 30rem;
-        height: 20rem;
+        height: 25rem;
         &-title {
             font-size: 1.3rem;
         }
