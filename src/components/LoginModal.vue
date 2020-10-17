@@ -38,21 +38,21 @@ export default {
                 pw: this.pw
             })
             .then((Response) => {
-                console.log(Response.message)
+                console.log(Response.data)
                 swal.fire({
                     icon: 'success', 
                     title: '로그인 성공',
-                    timer: 2000
+                    timer: 1000
                 })
                 this.onClose()
             })
             .catch(() => { 
-                console.log(Response.message)
+                console.log(Response.data)
                 swal.fire({
                     icon: 'error',
                     title: '로그인 실패',
                     text: '존재하지 않는 회원입니다',
-                    timer: 2000
+                    timer: 1000
                 })
             })
         }
