@@ -38,26 +38,33 @@ export default {
                 pw: this.pw
             })
             .then((Response) => {
-                console.log(Response.data)
+                this.addToken(Response.data.accessToken)
                 swal.fire({
                     icon: 'success', 
-                    title: '로그인 성공',
-                    timer: 1000
+                    title: Response.data.message,
+                    timer: 1500
                 })
                 this.onClose()
             })
-            .catch(() => { 
-                console.log(Response.data)
+            .catch((error) => { 
                 swal.fire({
-                    icon: 'error',
-                    title: '로그인 실패',
-                    text: '존재하지 않는 회원입니다',
-                    timer: 1000
+                    icon: 'warning',
+                    title: error.response.data.message,
+                    timer: 1500
                 })
             })
+        },
+        addToken: function(accessToken) {
+            axios.interceptors.request.use(config => {
+                    config.headers["Authorization"] = 'Bearer ' + Response.data.accessToken;
+                    return config;
+                }), (error) => {
+                    return Promise.reject(error);
+                }
+        }
+            
         }
     }
-}
 </script>
 
 <style lang="scss">

@@ -44,21 +44,18 @@ export default {
                 name: this.name
             })
             .then((Response) => {
-                console.log(Response.data)
                 swal.fire({
                     icon: 'success', 
-                    title: '회원가입 성공',
-                    timer: 1000
+                    title: Response.data.message,
+                    timer: 1500
                 })
                 this.onClose()
             })
-            .catch(() => {
-                console.log(Response.data)
+            .catch((error) => {
                 swal.fire({
-                    icon: 'error',
-                    title: '회원가입 실패',
-                    text: '존재하지 않는 회원입니다',
-                    timer: 1000
+                    icon: 'warning',
+                    title: error.response.data.message,
+                    timer: 1500
                 })
             })
         }
