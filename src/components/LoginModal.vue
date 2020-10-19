@@ -18,7 +18,8 @@
 
 <script>
 import axios from 'axios'
-import swal from 'sweetalert2';
+import swal from 'sweetalert2'
+import cookies from 'js-cookie' // https://www.npmjs.com/package/js-cookie
 
 export default {
     name: "login-modal",
@@ -38,31 +39,23 @@ export default {
                 pw: this.pw
             })
             .then((Response) => {
-                this.addToken(Response.data.accessToken)
                 swal.fire({
                     icon: 'success', 
                     title: Response.data.message,
                     timer: 1500
                 })
                 this.onClose()
+                cookies.set('accessToken', Response.data.accessToken, { expires: 7 });
             })
             .catch((error) => { 
+                console.log(cookies.get())
                 swal.fire({
                     icon: 'warning',
                     title: error.response.data.message,
                     timer: 1500
                 })
             })
-        },
-        addToken: function(accessToken) {
-            axios.interceptors.request.use(config => {
-                    config.headers["Authorization"] = 'Bearer ' + Response.data.accessToken;
-                    return config;
-                }), (error) => {
-                    return Promise.reject(error);
-                }
-        }
-            
+        },  
         }
     }
 </script>
