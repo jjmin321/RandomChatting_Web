@@ -24,15 +24,18 @@
 </template>
 
 <script>
+import axios from 'axios'
 import LoginModal from "@/components/LoginModal";
 import SignupModal from "@/components/SignupModal";
+import cookies from 'js-cookie'
 
 export default {
     name : "MainVue",
     data: function(){
         return {
           loginModal: false,
-          signupModal: false
+          signupModal: false,
+          headers: null
         }
     },
     components: {
@@ -45,6 +48,25 @@ export default {
       },
       loginModalClose() {
         this.loginModal = false;
+        if (cookies.get('accessToken')) {
+          axios.get(
+            'http://localhost:80/getInfo',
+            {
+              headers: {
+                'Authorization': `Bearer ${cookies.get('accessToken')}`
+              }
+            }
+          )
+          .then((Response) => {
+            console.log(Response.data.name)
+          })
+          .catch((error) => { 
+            console.log(err.response.data)                
+          })
+        } else {
+          console.log(cookies.get())
+          console.log(typeof(cookies.get()))
+        }
       },
       signupModalOpen() {
         this.signupModal = true;
