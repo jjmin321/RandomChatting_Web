@@ -45,7 +45,7 @@ export default {
                     timer: 1500
                 })
                 this.onClose()
-                cookies.set('accessToken', Response.data.accessToken, { expires: 7 });
+                cookies.set('accessToken', Response.data.accessToken, { expires: 1 });
             })
             .catch((error) => { 
                 console.log(cookies.get())
