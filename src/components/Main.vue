@@ -2,8 +2,13 @@
   <div>
     <header class="header">
       <div class="header-container">
-        <button class="login-btn" @click="loginModalOpen">로그인</button>
-        <button class="signup-btn" @click="signupModalOpen">회원가입</button>
+        <button v-if="isLogin == false" class="header-left-btn" @click="loginModalOpen">로그인</button>
+        <div v-else class="header-profile">
+          <!-- <div class="header-profile-image"></div> -->
+          <span class="header-profile-name" >{{userName}} 님, 안녕하세요</span>
+        </div>
+        <button v-if="isLogin == false" class="header-right-btn" @click="signupModalOpen">회원가입</button>
+        <button v-else class="header-right-btn" @click="logout">로그아웃</button>
       </div>
     </header>
     <div class="first">
@@ -28,6 +33,7 @@ import axios from 'axios'
 import LoginModal from "@/components/LoginModal";
 import SignupModal from "@/components/SignupModal";
 import cookies from 'js-cookie'
+import swal from 'sweetalert2'
 
 export default {
     name : "MainVue",
@@ -35,20 +41,16 @@ export default {
         return {
           loginModal: false,
           signupModal: false,
-          headers: null
+          isLogin: false,
+          userName: null,
         }
     },
     components: {
       LoginModal,
       SignupModal
     },
-    methods: {
-      loginModalOpen() {
-        this.loginModal = true;
-      },
-      loginModalClose() {
-        this.loginModal = false;
-        if (cookies.get('accessToken')) {
+    beforeCreate() {
+      if (cookies.get('accessToken')) {
           axios.get(
             'http://localhost:80/getInfo',
             {
@@ -58,14 +60,26 @@ export default {
             }
           )
           .then((Response) => {
-            console.log(Response.data.name)
+            this.isLogin = true
+            this.userName = Response.data.Member.name
           })
           .catch((error) => { 
-            console.log(err.response.data)                
+            swal.fire({
+                    icon: 'warning',
+                    title: '관리자에게 문의해주세요',
+                    timer: 1500
+                })            
           })
-        } else {
-          console.log(cookies.get())
-          console.log(typeof(cookies.get()))
+        }
+      },
+    methods: {
+      loginModalOpen() {
+        this.loginModal = true;
+      },
+      loginModalClose() {
+        this.loginModal = false;
+        if (cookies.get()) {
+          location.reload();
         }
       },
       signupModalOpen() {
@@ -73,6 +87,10 @@ export default {
       },
       signupModalClose() {
         this.signupModal = false;
+      },
+      logout() {
+        cookies.remove('accessToken')
+        location.reload();
       }
     }
 }
@@ -127,7 +145,7 @@ export default {
     z-index: -1;
     animation: image-move 5s 0s;
   }
-  .login-btn {
+  .header-left-btn {
     width: 100px;
     height: 40px;
      background-color: #7600FF;
@@ -145,7 +163,7 @@ export default {
     animation: image-move 3s 0s;
     box-shadow: 0px 3px 10px rgba(154, 66, 255, 0.9);
   }
-  .signup-btn {
+  .header-right-btn {
     width: 100px;
     height: 40px;
     background-color: #7600FF;
@@ -164,6 +182,21 @@ export default {
     animation: image-move 3s 0s;
     box-shadow: 0px 3px 10px rgba(154, 66, 255, 0.9);
   }
+
+.header-profile {
+  display: flex;
+  align-items: center;
+}
+
+  .header-profile-image {
+    width: 2rem;
+    height: 2rem;
+    background-color: gray;
+    border-radius: 50%;
+    margin-right: 0.4rem;
+  }
+
+
   .start-btn {
      width: 160px;
      height: 50px;
