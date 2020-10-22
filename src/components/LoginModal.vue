@@ -36,15 +36,16 @@ export default {
         login: function(id, pw) {
             axios.post("http://localhost:80/signIn", {
                 id: this.id,
-                pw: this.pw
+                pw: this.pw,
             })
             .then((Response) => {
                 swal.fire({
                     icon: 'success', 
-                    title: Response.data.message,
-                    timer: 1500
+                    title: Response.data.message
                 })
-                this.onClose()
+                setTimeout(() => {
+                   this.onClose();
+                }, 1000);
                 cookies.set('accessToken', Response.data.accessToken, { expires: 1 });
             })
             .catch((error) => { 
