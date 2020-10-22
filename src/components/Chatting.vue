@@ -4,11 +4,51 @@
       <div class="header-container">
         <div class="header-profile">
           <!-- <div class="header-profile-image"></div> -->
-          <span class="header-profile-name" >{{$store.state.userName}} 님, 안녕하세요</span>
+          <span class="header-profile-name" >{{userName}} 님, 안녕하세요</span>
         </div>
         <button class="header-right-btn" @click="logout">로그아웃</button>
       </div>
     </header>
+
+    <body class="contentWrap">
+    <div class="contentCover">
+        <div class="roomWrap">
+            <div class="roomList">
+                <div class="roomHeader">채팅 방 목록</div>
+                <div class="roomSelect">
+                    <div class="roomEl active" data-class="1">Everyone</div>
+                    <div class="roomEl" data-class="2">VueJS</div>
+                    <div class="roomEl" data-class="3">ReactJS</div>
+                    <div class="roomEl" data-class="4">AngularJS</div>
+                </div>
+            </div>
+        </div>
+        <div class="chatWrap" v-if="isJoined == true">
+            <div class="chatHeader">Everyone</div>
+            <div class="chatLog">
+                <div class="anotherMsg">
+                    <span class="anotherName">Jo</span>
+                    <span class="msg">Hello, Nice to meet you.</span>
+                </div>
+                <div class="myMsg">
+                    <span class="msg">Nice to meet you, too.</span>
+                </div>
+            </div>
+            <form class="chatForm">
+                <!-- <input type="text" autocomplete="off" size="30" class="message" placeholder="메시지를 입력하세요"> -->
+                <input class="message" autocomplete="off" v-model="message"  placeholder="메시지를 입력하세요">
+                <input type="submit" value="보내기">
+            </form>
+        </div>
+        <button class="join-btn" v-else @click="joinroom">입장하기</button>
+        <div class="memberWrap">
+            <div class="memberList">
+                <div class="memberHeader">사람</div>
+                <div class="memberSelect"></div>
+            </div>
+        </div>
+    </div>
+    </body>
       <!-- <div>
       <input v-model="message">
       <button @click="sendMessage(message)">Send Message</button>
@@ -19,47 +59,237 @@
 <script>
 import axios from 'axios'
 import cookies from 'js-cookie'
+import swal from 'sweetalert2'
 export default {
     name : 'ChattingVue',
     data: function() {
         return {
             connection: null,
-            name: '',
-            pw: ''
+            userName: '',
+            isJoined: false,
+            message: '',
         }
     },
     beforeCreate() {
-      if (!cookies.get('accessToken')) {
-        location.href= '/'     
+      if (cookies.get('accessToken')) {
+          axios.get(
+            'http://localhost:80/getInfo',
+            {
+              headers: {
+                'Authorization': `Bearer ${cookies.get('accessToken')}`
+              }
+            }
+          )
+          .then((Response) => {
+            this.userName = Response.data.Member.name
+          })
+          .catch((error) => { 
+            swal.fire({
+                    icon: 'warning',
+                    title: '관리자에게 문의해주세요',
+                    timer: 1500
+                })            
+            })
+      } else {
+          swal.fire({
+                icon: 'warning',
+                title: '로그인이 필요합니다',
+                timer: 1500
+            })            
+            setTimeout(() => {
+                   location.href= '/';
+            }, 1000);
       }
     },
     methods: {
         logout() {
             cookies.remove('accessToken')
             location.href = '/'
+        },
+        joinroom() {
+            this.connection.send("1|"+this.userName);
         }
         // sendMessage: function(message) {
         //     this.connection.send("2|"+message);
         // }
     },
-    // created: function() {
-    //     console.log("Starting Connection to WebSocket Server")
-    //     this.connection = new WebSocket("ws://10.80.162.43")
-
-    //     this.connection.onmessage = function(event) {
-    //         console.log(event.data);
-    //     }
-
-    //     this.connection.onopen = function(event) {
-    //         console.log(event)
-    //         console.log("Succesfully connected to the websocket server.")
-    //     }
-    // }
+    created: function() {
+        this.connection = new WebSocket("ws://127.0.0.1/chatting")
+        this.connection.onmessage = function(event) {
+            console.log(event.data);
+            console.log('z')
+        }
+    }
 }
 </script>
 
 <style lang="scss">
 .overflow-hidden {
   overflow: hidden;
+}
+
+.roomWrap {
+    width: 150px;
+}
+
+.roomList {
+    border: 1px solid #0084FF;
+    border-radius: 5px;
+}
+
+.roomHeader {
+    background-color: #0084FF;
+    color: #fff;
+    height: 40px;
+    font-size: 18px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.roomEl {
+    text-align: center;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 10px 0px;
+    cursor: pointer;
+}
+
+.roomEl:hover{
+    background: #f0f0f0;
+}
+
+.roomEl.active{
+    background: #f0f0f0;
+}
+
+.join-btn {
+    width: 100px;
+    height: 40px;
+    background-color: #7600FF;
+    margin-left: 10px;
+    color: white;
+    padding: 1.5em 2em;
+    border: none;
+    transition: all .3s ease;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+    display : flex;
+    justify-content: center;
+    align-items:center;;
+    align-self: center;
+    animation: image-move 3s 0s;
+    box-shadow: 0px 3px 10px rgba(154, 66, 255, 0.9);
+  }
+
+.chatWrap {
+    width: 600px;
+    border: 1px solid #ddd;
+}
+
+.chatHeader {
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    font-size: 25px;
+    font-weight: 900;
+    border-bottom: 1px solid #ddd;
+}
+
+.chatLog {
+    height: 500px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.myMsg {
+    text-align: right;
+}
+
+.anotherMsg {
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.msg {
+    display: inline-block;
+    border-radius: 15px;
+    padding: 7px 15px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+
+}
+
+.anotherMsg > .msg {
+    background-color: #f1f0f0;
+
+}
+
+.myMsg > .msg {
+    background-color: #0084FF;
+    color: #fff;
+}
+
+.anotherName {
+    font-size: 12px;
+    display: block;
+}
+
+.chatForm {
+    display: block;
+    width: 100%;
+    height: 50px;
+    border-top: 2px solid #f0f0f0;
+}
+
+.message {
+    width: 85%;
+    height: calc(100% - 1px);
+    border: none;
+    padding-bottom: 0;
+}
+
+.message:focus {
+    outline: none;
+}
+
+.chatForm > input[type=submit] {
+    outline: none;
+    border: none;
+    background: none;
+    color: #0084FF;
+    font-size: 17px;
+}
+
+.memberWrap{
+    width: 200px;
+}
+
+.memberList {
+    border: 1px solid #aaaaaa;
+    border-radius: 5px;
+}
+
+.memberHeader {
+    height: 40px;
+    font-size: 18px;
+    line-height: 40px;
+    padding-left: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    font-weight: 600;
+}
+
+.memberEl {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+.contentCover{
+    width: 1280px;
+    margin: 0 auto;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-around;
 }
 </style>
