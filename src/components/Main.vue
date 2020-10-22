@@ -15,7 +15,7 @@
       <img class="background-img" src="../static/background.svg" />
       <div class="first-box">
         <div class="first-content">
-          심심한 새끼들을 위한 거
+          심심한 우리 학교를 위한 거
           <h1> 대소고 랜덤채팅 </h1>
           <button class="start-btn" onclick="location.href='chatting'">
           시작하기
@@ -42,7 +42,7 @@ export default {
           loginModal: false,
           signupModal: false,
           isLogin: false,
-          userName: null,
+          userName: "",
         }
     },
     components: {
@@ -70,8 +70,8 @@ export default {
                     timer: 1500
                 })            
           })
-        }
-      },
+      }
+    },
     methods: {
       loginModalOpen() {
         this.loginModal = true;
@@ -115,7 +115,7 @@ export default {
     display: flex;
     width: 100%;
     min-height: 100vh;
-    align-items: center;
+    align-items:center ;
     justify-content: center;
     overflow-y: hidden;
   }
@@ -124,7 +124,7 @@ export default {
     max-width: 1600px;
     width: 100%;
     padding: 0 2rem;
-    padding-top: 5rem;
+    padding-bottom: 15rem;
     justify-content: space-between;
   }
   
