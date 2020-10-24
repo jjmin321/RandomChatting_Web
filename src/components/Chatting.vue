@@ -10,16 +10,14 @@
       </div>
     </header>
 
-    <body class="contentWrap">
+    <div class="contentWrap">
     <div class="contentCover">
         <div class="roomWrap">
             <div class="roomList">
                 <div class="roomHeader">채팅 방 목록</div>
                 <div class="roomSelect">
-                    <div class="roomEl active" data-class="1">Everyone</div>
-                    <div class="roomEl" data-class="2">VueJS</div>
-                    <div class="roomEl" data-class="3">ReactJS</div>
-                    <div class="roomEl" data-class="4">AngularJS</div>
+                    <div class="roomEl active" data-class="1">전체 채팅</div>
+                    <div class="roomEl" data-class="2">{{roomNum}}번째 방</div>
                 </div>
             </div>
         </div>
@@ -34,9 +32,9 @@
                     <span class="msg">Nice to meet you, too.</span>
                 </div>
             </div>
-            <form class="chatForm">
+            <form class="chatForm" @submit.prevent="sendMessage">
                 <!-- <input type="text" autocomplete="off" size="30" class="message" placeholder="메시지를 입력하세요"> -->
-                <input class="message" autocomplete="off" v-model="message"  placeholder="메시지를 입력하세요">
+                <input class="message" autocomplete="off" placeholder="메시지를 입력하세요" v-model="message">
                 <input type="submit" value="보내기">
             </form>
         </div>
@@ -44,11 +42,11 @@
         <div class="memberWrap">
             <div class="memberList">
                 <div class="memberHeader">사람</div>
-                <div class="memberSelect"></div>
+                <div class="memberSelect" v-bind:key="item" v-for = "item in allUser">{{item.user}}</div>
             </div>
         </div>
     </div>
-    </body>
+    </div>
       <!-- <div>
       <input v-model="message">
       <button @click="sendMessage(message)">Send Message</button>
@@ -67,7 +65,12 @@ export default {
             connection: null,
             userName: '',
             isJoined: false,
+            roomNum : '0',
             message: '',
+            allUser: [
+                {user: 'dd'},
+                {user: 'ff'}
+            ],
         }
     },
     beforeCreate() {
@@ -107,19 +110,43 @@ export default {
             location.href = '/'
         },
         joinroom() {
-            this.connection.send("1|"+this.userName);
-        }
-        // sendMessage: function(message) {
-        //     this.connection.send("2|"+message);
-        // }
+            const chatting = this;
+            this.isJoined = true;  
+            this.connection = new WebSocket("ws://127.0.0.1/chatting")
+            this.connection.onopen = function() {
+                console.log("연결 완료")
+            }
+            this.connection.onmessage = function(response) {
+                var strArray = response.data.split('|')
+                if (strArray[0] == "방 번호") {
+                    chatting.roomNum = strArray[1]
+                } else if (strArray[0] == "랜덤채팅") {
+                    if (strArray[1] == chatting.userName) {
+                        console.log(`내 메세지 : ${strArray[2]}`)
+                    } else {
+                        console.log(`${strArray[1]}의 메세지 : ${strArray[2]}`)
+                    }
+                }
+            } 
+            this.connection.onclose = function(event) {
+                swal.fire({
+                    icon: 'error',
+                    title: '한 계정으로 다중 접속은 불가능합니다',
+                    timer: 1500
+                })
+                setTimeout(() => {
+                    location.href = '/'
+                }, 1000)
+            }
+            setTimeout(() => {
+                this.connection.send("1|"+this.userName);  
+            }, 100)
+        },
+        sendMessage() {
+            this.connection.send("2|"+this.message);
+            this.message = '';
+        },
     },
-    created: function() {
-        this.connection = new WebSocket("ws://127.0.0.1/chatting")
-        this.connection.onmessage = function(event) {
-            console.log(event.data);
-            console.log('z')
-        }
-    }
 }
 </script>
 
