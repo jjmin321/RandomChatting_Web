@@ -89,7 +89,7 @@ export default {
           .catch((error) => { 
             swal.fire({
                     icon: 'warning',
-                    title: '관리자에게 문의해주세요',
+                    title: '연결이 종료되었습니다',
                     timer: 1500
                 })            
             })
