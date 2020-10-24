@@ -42,7 +42,8 @@
         <div class="memberWrap">
             <div class="memberList">
                 <div class="memberHeader">사람</div>
-                <div class="memberSelect" v-bind:key="item" v-for = "item in allUser">{{item.user}}</div>
+                <div class="memberEl">{{userName}}(나)</div>
+                <div class="memberEl" v-bind:key="item" v-for = "item in userList">{{item.user}}</div>
             </div>
         </div>
     </div>
@@ -67,10 +68,7 @@ export default {
             isJoined: false,
             roomNum : '0',
             message: '',
-            allUser: [
-                {user: 'dd'},
-                {user: 'ff'}
-            ],
+            userList: [],
         }
     },
     beforeCreate() {
@@ -126,6 +124,10 @@ export default {
                     } else {
                         console.log(`${strArray[1]}의 메세지 : ${strArray[2]}`)
                     }
+                } else if (strArray[0] == "방 유저") {
+                    chatting.userList.push({user:strArray[1]})
+                } else if (strArray[0] == "사람 나감") {
+                    chatting.userList.pop({user:strArray[1]})
                 }
             } 
             this.connection.onclose = function(event) {
@@ -310,6 +312,7 @@ export default {
     border-bottom: 1px solid #f0f0f0;
     padding: 10px 20px;
     font-size: 14px;
+    text-align: center;
 }
 
 .contentCover{
