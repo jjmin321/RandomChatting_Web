@@ -25,24 +25,19 @@
             <div class="chatHeader" v-if="selectedRoom === 'All'">전체 채팅</div>
             <div class="chatHeader" v-else>{{roomNum}}번째 방</div>
             <div class="chatLog">
-                <div class="myMsg" v-bind:key="item" v-for = "item in chatLog">
-                    <span class="msg" v-if="item.user == '나' ">{{item.message}}</span>
+                <div v-bind:key="item" v-for= "item in chatLog">
+                <div class="myMsg" v-if ="item.user == '나' ">
+                    <span class="msg">{{item.message}}</span>
                 </div>
-                <div class="anotherMsg" v-bind:key="item" v-for = "item in chatLog">
-                    <span class="msg" v-if="item.user != '나'">{{item.message}}</span>
+                <div class="anotherMsg" v-else>
+                    <span class="anotherName">{{item.user}}</span>
+                    <span class="msg">{{item.message}}</span>
                 </div>
-                <!-- <div class="anotherMsg">
-                    <span class="anotherName">Jo</span>
-                    <span class="msg">Hello, Nice to meet you.</span>
                 </div>
-                <div class="myMsg">
-                    <span class="msg">Nice to meet you, too.</span>
-                </div> -->
             </div>
             <form class="chatForm" @submit.prevent="sendMessage">
-                <!-- <input type="text" autocomplete="off" size="30" class="message" placeholder="메시지를 입력하세요"> -->
                 <input class="message" autocomplete="off" placeholder="메시지를 입력하세요" v-model="message">
-                <input type="submit" value="보내기">
+                <input v-if="chatCoolTime == false" type="submit" value="보내기">
             </form>
         </div>
         <button class="join-btn" v-else @click="joinroom">입장하기</button>
@@ -74,6 +69,7 @@ export default {
             message: '',
             userList: [],
             chatLog: [],
+            chatCoolTime : false
         }
     },
     beforeCreate() {
@@ -152,14 +148,24 @@ export default {
             }, 100)
         },
         sendMessage() {
+            if (!this.message.trim()) {
+                return;
+            }
             this.connection.send("2|"+this.message);
             this.message = '';
+            this.chatCoolTime = true;
+            setTimeout(() => {
+                this.chatAble();
+            }, 1000)
         },
         selectAll() {
             this.selectedRoom = 'All';
         },
         selectRoom() {
             this.selectedRoom = 'Room';
+        },
+        chatAble() {
+            this.chatCoolTime = false;
         }
     },
 }
@@ -259,7 +265,7 @@ export default {
     padding: 7px 15px;
     margin-bottom: 10px;
     margin-top: 5px;
-
+    word-break: break-all;
 }
 
 .anotherMsg > .msg {
