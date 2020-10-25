@@ -24,7 +24,7 @@
         <div class="chatWrap" v-if="isJoined == true">
             <div class="chatHeader" v-if="selectedRoom === 'All'">전체 채팅</div>
             <div class="chatHeader" v-else>{{roomNum}}번째 방</div>
-            <div class="chatLog">
+            <div ref="chatBox" class="chatLog">
                 <div v-bind:key="item" v-for= "item in chatLog">
                 <div class="myMsg" v-if ="item.user == '나' ">
                     <span class="msg">{{item.message}}</span>
@@ -36,8 +36,8 @@
                 </div>
             </div>
             <form class="chatForm" @submit.prevent="sendMessage">
-                <input class="message" autocomplete="off" placeholder="메시지를 입력하세요" v-model="message">
-                <input v-if="chatCoolTime == false" type="submit" value="보내기">
+                <input autofocus class="message" autocomplete="off" placeholder="메시지를 입력하세요" v-model="message" maxlength="100" :readonly="chatCoolTime">
+                <input type="submit" value="보내기">
             </form>
         </div>
         <button class="join-btn" v-else @click="joinroom">입장하기</button>
@@ -115,22 +115,38 @@ export default {
             this.connection.onopen = function() {
                 console.log("연결 완료")
             }
-            this.connection.onmessage = function(response) {
+            this.connection.onmessage = async function(response) {
+                const chatLogEl = document.getElementsByClassName('chatLog')[0]
+                let isBottom = false;
+                if (chatLogEl.scrollHeight - chatLogEl.scrollTop === chatLogEl.clientHeight) {
+                    isBottom = true;
+                }
+
                 var strArray = response.data.split('|')
-                if (strArray[0] == "방 번호") {
-                    chatting.roomNum = strArray[1]
-                } else if (strArray[0] == "방 유저") {
-                    chatting.userList.push({user:strArray[1]})
-                } else if (strArray[0] == "사람 나감") {
-                    chatting.userList.pop({user:strArray[1]})
-                } else if (strArray[0] == "랜덤채팅") {
-                    if (strArray[1] == chatting.userName) {
-                        chatting.chatLog.push({user: "나", message: strArray[2]})
-                        console.log(`내 메세지 : ${strArray[2]}`)
-                    } else {
-                        chatting.chatLog.push({user: strArray[1], message: strArray[2]})
-                        console.log(`${strArray[1]}의 메세지 : ${strArray[2]}`)
-                    }
+
+                const promise = new Promise((resolve, reject) => {
+                    if (strArray[0] == "방 번호") {
+                        chatting.roomNum = strArray[1]
+                    } else if (strArray[0] == "방 유저") {
+                        chatting.userList.push({user:strArray[1]})
+                    } else if (strArray[0] == "사람 나감") {
+                        chatting.userList.pop({user:strArray[1]})
+                    } else if (strArray[0] == "랜덤채팅") {
+                        if (strArray[1] == chatting.userName) {
+                            chatting.chatLog.push({user: "나", message: strArray[2]})
+                            console.log(`내 메세지 : ${strArray[2]}`)
+                        } else {
+                            chatting.chatLog.push({user: strArray[1], message: strArray[2]})
+                            console.log(`${strArray[1]}의 메세지 : ${strArray[2]}`)
+                        }
+                    } 
+                   resolve()
+                })
+
+                await promise
+
+                if (isBottom) {
+                    chatLogEl.scrollTop = chatLogEl.scrollHeight
                 }
             } 
             this.connection.onclose = function(event) {
@@ -148,15 +164,35 @@ export default {
             }, 100)
         },
         sendMessage() {
+            if (this.selectedRoom == 'All') {
+                this.sendMessageToAll();
+            } else {
+                this.sendMessageToRoom();
+            }
+        },
+        sendMessageToAll() {
             if (!this.message.trim()) {
                 return;
+            } else {
+                this.connection.send("확성기|"+this.message);
+                this.message = '';
+                this.chatCoolTime = true;
+                setTimeout(() => {
+                    this.chatAble();
+                }, 1000)
             }
-            this.connection.send("2|"+this.message);
-            this.message = '';
-            this.chatCoolTime = true;
-            setTimeout(() => {
-                this.chatAble();
-            }, 1000)
+        },
+        sendMessageToRoom() {
+            if (!this.message.trim()) {
+                return;
+            } else {
+                this.connection.send("2|"+this.message);
+                this.message = '';
+                this.chatCoolTime = true;
+                setTimeout(() => {
+                    this.chatAble();
+                }, 1000)
+            }
         },
         selectAll() {
             this.selectedRoom = 'All';
@@ -181,12 +217,12 @@ export default {
 }
 
 .roomList {
-    border: 1px solid #0084FF;
+    border: 1px solid paleturquoise;
     border-radius: 5px;
 }
 
 .roomHeader {
-    background-color: #0084FF;
+    background-color: paleturquoise;
     color: #fff;
     height: 40px;
     font-size: 18px;
