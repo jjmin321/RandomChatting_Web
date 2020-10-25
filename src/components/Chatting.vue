@@ -16,13 +16,14 @@
             <div class="roomList">
                 <div class="roomHeader">채팅 방 목록</div>
                 <div class="roomSelect">
-                    <div class="roomEl active" data-class="1">전체 채팅</div>
-                    <div class="roomEl" data-class="2">{{roomNum}}번째 방</div>
+                    <div @click="selectAll" class="roomEl" :class="{ active: selectedRoom === 'All' }" data-class="1">전체 채팅</div>
+                    <div @click="selectRoom" class="roomEl" :class="{ active: selectedRoom === 'Room' }" data-class="2">{{roomNum}}번째 방</div>
                 </div>
             </div>
         </div>
         <div class="chatWrap" v-if="isJoined == true">
-            <div class="chatHeader">Everyone</div>
+            <div class="chatHeader" v-if="selectedRoom === 'All'">전체 채팅</div>
+            <div class="chatHeader" v-else>{{roomNum}}번째 방</div>
             <div class="chatLog">
                 <div class="anotherMsg">
                     <span class="anotherName">Jo</span>
@@ -66,9 +67,11 @@ export default {
             connection: null,
             userName: '',
             isJoined: false,
+            selectedRoom: 'All',
             roomNum : '0',
             message: '',
             userList: [],
+            chatLog: [],
         }
     },
     beforeCreate() {
@@ -118,16 +121,18 @@ export default {
                 var strArray = response.data.split('|')
                 if (strArray[0] == "방 번호") {
                     chatting.roomNum = strArray[1]
-                } else if (strArray[0] == "랜덤채팅") {
-                    if (strArray[1] == chatting.userName) {
-                        console.log(`내 메세지 : ${strArray[2]}`)
-                    } else {
-                        console.log(`${strArray[1]}의 메세지 : ${strArray[2]}`)
-                    }
                 } else if (strArray[0] == "방 유저") {
                     chatting.userList.push({user:strArray[1]})
                 } else if (strArray[0] == "사람 나감") {
                     chatting.userList.pop({user:strArray[1]})
+                } else if (strArray[0] == "랜덤채팅") {
+                    if (strArray[1] == chatting.userName) {
+                        chatting.chatLog.push({name: "나", message: strArray[2]})
+                        console.log(`내 메세지 : ${strArray[2]}`)
+                    } else {
+                        chatting.chatLog.push({name: strArray[1], message: strArray[2]})
+                        console.log(`${strArray[1]}의 메세지 : ${strArray[2]}`)
+                    }
                 }
             } 
             this.connection.onclose = function(event) {
@@ -148,6 +153,12 @@ export default {
             this.connection.send("2|"+this.message);
             this.message = '';
         },
+        selectAll() {
+            this.selectedRoom = 'All';
+        },
+        selectRoom() {
+            this.selectedRoom = 'Room';
+        }
     },
 }
 </script>
