@@ -25,13 +25,19 @@
             <div class="chatHeader" v-if="selectedRoom === 'All'">전체 채팅</div>
             <div class="chatHeader" v-else>{{roomNum}}번째 방</div>
             <div class="chatLog">
-                <div class="anotherMsg">
+                <div class="myMsg" v-bind:key="item" v-for = "item in chatLog">
+                    <span class="msg" v-if="item.user == '나' ">{{item.message}}</span>
+                </div>
+                <div class="anotherMsg" v-bind:key="item" v-for = "item in chatLog">
+                    <span class="msg" v-if="item.user != '나'">{{item.message}}</span>
+                </div>
+                <!-- <div class="anotherMsg">
                     <span class="anotherName">Jo</span>
                     <span class="msg">Hello, Nice to meet you.</span>
                 </div>
                 <div class="myMsg">
                     <span class="msg">Nice to meet you, too.</span>
-                </div>
+                </div> -->
             </div>
             <form class="chatForm" @submit.prevent="sendMessage">
                 <!-- <input type="text" autocomplete="off" size="30" class="message" placeholder="메시지를 입력하세요"> -->
@@ -49,10 +55,6 @@
         </div>
     </div>
     </div>
-      <!-- <div>
-      <input v-model="message">
-      <button @click="sendMessage(message)">Send Message</button>
-      </div> -->
   </div>
 </template>
 
@@ -127,10 +129,10 @@ export default {
                     chatting.userList.pop({user:strArray[1]})
                 } else if (strArray[0] == "랜덤채팅") {
                     if (strArray[1] == chatting.userName) {
-                        chatting.chatLog.push({name: "나", message: strArray[2]})
+                        chatting.chatLog.push({user: "나", message: strArray[2]})
                         console.log(`내 메세지 : ${strArray[2]}`)
                     } else {
-                        chatting.chatLog.push({name: strArray[1], message: strArray[2]})
+                        chatting.chatLog.push({user: strArray[1], message: strArray[2]})
                         console.log(`${strArray[1]}의 메세지 : ${strArray[2]}`)
                     }
                 }
