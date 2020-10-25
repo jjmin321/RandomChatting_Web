@@ -174,7 +174,7 @@ export default {
             if (!this.message.trim()) {
                 return;
             } else {
-                this.connection.send("확성기|"+this.message);
+                this.connection.send("[전체]"+this.message);
                 this.message = '';
                 this.chatCoolTime = true;
                 setTimeout(() => {
