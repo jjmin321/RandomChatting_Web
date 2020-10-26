@@ -25,7 +25,7 @@
             <div class="chatHeader" v-if="selectedRoom === 'All'">전체 채팅</div>
             <div class="chatHeader" v-else>{{roomNum}}번째 방</div>
             <div ref="chatBox" class="chatLog">
-                <div v-bind:key="item" v-for= "item in chatLog">
+                <div v-bind:key="item" v-for= "item in filteredChatLog">
                 <div class="myMsg" v-if ="item.user == '나' ">
                     <span class="msg">{{item.message}}</span>
                 </div>
@@ -68,9 +68,20 @@ export default {
             roomNum : '0',
             message: '',
             userList: [],
-            chatLog: [],
-            chatCoolTime : false
+            allChatLog: [],
+            randomChatLog: [],
+            chatCoolTime : false,
+            filteredChatLog: [],
         }
+    },
+    watch: {
+      selectedRoom: function(val) {
+          if (val === 'Room') {
+              this.filteredChatLog = this.randomChatLog
+          } else {
+              this.filteredChatLog = this.allChatLog
+          }
+      }  
     },
     beforeCreate() {
       if (cookies.get('accessToken')) {
@@ -133,13 +144,20 @@ export default {
                         chatting.userList.pop({user:strArray[1]})
                     } else if (strArray[0] == "랜덤채팅") {
                         if (strArray[1] == chatting.userName) {
-                            chatting.chatLog.push({user: "나", message: strArray[2]})
-                            console.log(`내 메세지 : ${strArray[2]}`)
+                            console.log("내 메시지 : "+strArray[2])
+                            chatting.randomChatLog.push({user: "나", message: strArray[2]})
                         } else {
-                            chatting.chatLog.push({user: strArray[1], message: strArray[2]})
-                            console.log(`${strArray[1]}의 메세지 : ${strArray[2]}`)
+                            chatting.randomChatLog.push({user: strArray[1], message: strArray[2]})
                         }
-                    } 
+                    } else if (strArray[0] == "전체채팅") {
+                        if (strArray[1] == chatting.userName) {
+                            console.log("내가 보낸 전체 메시지: "+strArray[2])
+                            chatting.allChatLog.push({user: "나", message : strArray[2]})
+                        } else {
+                            chatting.allChatLog.push({user: strArray[1], message: strArray[2]})
+                        }
+                    }
+
                    resolve()
                 })
 
@@ -174,7 +192,8 @@ export default {
             if (!this.message.trim()) {
                 return;
             } else {
-                this.connection.send("[전체]"+this.message);
+                console.log(this.message)
+                this.connection.send("2|[전체]"+this.message);
                 this.message = '';
                 this.chatCoolTime = true;
                 setTimeout(() => {
@@ -331,6 +350,7 @@ export default {
     height: calc(100% - 1px);
     border: none;
     padding-bottom: 0;
+    padding-left: 10px;
 }
 
 .message:focus {
