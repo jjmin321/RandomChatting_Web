@@ -123,7 +123,7 @@ export default {
                     isBottom = true;
                 }
 
-                var strArray = response.data.split('|')
+                var strArray = response.data.split('ᗠ')
 
                 const promise = new Promise((resolve, reject) => {
                     if (strArray[0] == "방 번호") {
@@ -168,7 +168,7 @@ export default {
                 }, 1000)
             }
             setTimeout(() => {
-                this.connection.send("1|"+this.userName);  
+                this.connection.send("1ᗠ"+this.userName);  
             }, 100)
         },
         sendMessage() {
@@ -182,7 +182,7 @@ export default {
             if (!this.message.trim()) {
                 return;
             } else {
-                this.connection.send("2|"+this.message);
+                this.connection.send("2ᗠ"+this.message);
                 this.message = '';
                 this.chatCoolTime = true;
                 setTimeout(() => {
@@ -195,7 +195,7 @@ export default {
                 return;
             } else {
                 console.log(this.message)
-                this.connection.send("3|"+this.message);
+                this.connection.send("3ᗠ"+this.message);
                 this.message = '';
                 this.chatCoolTime = true;
                 setTimeout(() => {
