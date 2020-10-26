@@ -178,12 +178,11 @@ export default {
                 this.sendMessageToRoom();
             }
         },
-        sendMessageToAll() {
+        sendMessageToRoom() {
             if (!this.message.trim()) {
                 return;
             } else {
-                console.log(this.message)
-                this.connection.send("2|[전체]"+this.message);
+                this.connection.send("2|"+this.message);
                 this.message = '';
                 this.chatCoolTime = true;
                 setTimeout(() => {
@@ -191,11 +190,12 @@ export default {
                 }, 1000)
             }
         },
-        sendMessageToRoom() {
+        sendMessageToAll() {
             if (!this.message.trim()) {
                 return;
             } else {
-                this.connection.send("2|"+this.message);
+                console.log(this.message)
+                this.connection.send("3|"+this.message);
                 this.message = '';
                 this.chatCoolTime = true;
                 setTimeout(() => {
