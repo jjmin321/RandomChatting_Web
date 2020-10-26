@@ -16,13 +16,13 @@
             <div class="roomList">
                 <div class="roomHeader">채팅 방 목록</div>
                 <div class="roomSelect">
-                    <div @click="selectAll" class="roomEl" :class="{ active: selectedRoom === 'All' }" data-class="1">전체 채팅</div>
-                    <div @click="selectRoom" class="roomEl" :class="{ active: selectedRoom === 'Room' }" data-class="2">{{roomNum}}번째 방</div>
+                    <div @click="selectAll" class="roomEl" :class="{ active: filteredChatLog === allChatLog }" data-class="1">전체 채팅</div>
+                    <div @click="selectRoom" class="roomEl" :class="{ active: filteredChatLog === randomChatLog }" data-class="2">{{roomNum}}번째 방</div>
                 </div>
             </div>
         </div>
         <div class="chatWrap" v-if="isJoined == true">
-            <div class="chatHeader" v-if="selectedRoom === 'All'">전체 채팅</div>
+            <div class="chatHeader" v-if="filteredChatLog === allChatLog">전체 채팅</div>
             <div class="chatHeader" v-else>{{roomNum}}번째 방</div>
             <div ref="chatBox" class="chatLog">
                 <div v-bind:key="item" v-for= "item in filteredChatLog">
@@ -40,7 +40,7 @@
                 <input type="submit" value="보내기">
             </form>
         </div>
-        <button class="join-btn" v-else @click="joinroom">입장하기</button>
+        <button class="join-btn" v-else @click="[joinroom(), selectAll()]">입장하기</button>
         <div class="memberWrap">
             <div class="memberList">
                 <div class="memberHeader">사람</div>
@@ -64,24 +64,14 @@ export default {
             connection: null,
             userName: '',
             isJoined: false,
-            selectedRoom: 'All',
             roomNum : '0',
             message: '',
             userList: [],
             allChatLog: [],
             randomChatLog: [],
-            chatCoolTime : false,
             filteredChatLog: [],
+            chatCoolTime : false
         }
-    },
-    watch: {
-      selectedRoom: function(val) {
-          if (val === 'Room') {
-              this.filteredChatLog = this.randomChatLog
-          } else {
-              this.filteredChatLog = this.allChatLog
-          }
-      }  
     },
     beforeCreate() {
       if (cookies.get('accessToken')) {
@@ -182,7 +172,7 @@ export default {
             }, 100)
         },
         sendMessage() {
-            if (this.selectedRoom == 'All') {
+            if (this.filteredChatLog === this.allChatLog) {
                 this.sendMessageToAll();
             } else {
                 this.sendMessageToRoom();
@@ -214,10 +204,10 @@ export default {
             }
         },
         selectAll() {
-            this.selectedRoom = 'All';
+            this.filteredChatLog = this.allChatLog
         },
         selectRoom() {
-            this.selectedRoom = 'Room';
+            this.filteredChatLog = this.randomChatLog
         },
         chatAble() {
             this.chatCoolTime = false;
