@@ -5,15 +5,15 @@
             <h3 class="signup-modal-box-title">회원가입</h3>
             <div class="signup-modal-box-form">
                 <span>아이디</span>
-                <input v-model="id" type="text" placeholder="사용할 아이디를 입력해주세요." autofocus />
+                <input v-model="id" type="text" placeholder="4~15자 이내로 입력해주세요." autofocus />
             </div>
             <div class="signup-modal-box-form">
                 <span>비밀번호</span>
-                <input v-model="pw" type="text" placeholder="사용할 비밀번호를 입력해주세요." />
+                <input v-model="pw" type="text" placeholder="6~15자 이내로 입력해주세요." />
             </div>
             <div class="signup-modal-box-form">
                 <span>닉네임</span>
-                <input v-model="name" type="text" placeholder="사용할 닉네임을 입력해주세요." />
+                <input v-model="name" type="text" placeholder="2~15자 이내로 입력해주세요." />
             </div>
                 <button class="signup-modal-box-submit" @click="signup">회원가입</button>                
         </div>
@@ -38,7 +38,26 @@ export default {
             this.$emit("onClose");
         },
         signup: function(id, pw, name) {
-            axios.post("http://localhost:80/signUp", {
+            if (this.id.length < 4 || this.id.length > 15) {
+                swal.fire({
+                    icon: 'warning',
+                    title: '아이디를 4~15자 이내로 입력해주세요',
+                    timer: 1500
+                })
+            } else if (this.pw.length < 6 || this.pw.length > 15) {
+                swal.fire({
+                    icon: 'warning',
+                    title: '비밀번호를 6~15자 이내로 입력해주세요',
+                    timer: 1500
+                })
+            } else if (this.name.length < 2 || this.name.length > 15) {
+                swal.fire({
+                    icon: 'warning',
+                    title: '닉네임을 2~15자 이내로 입력해주세요',
+                    timer: 1500
+                })
+            } else {
+                axios.post("http://localhost:80/signUp", {
                 id: this.id,
                 pw: this.pw,
                 name: this.name
@@ -58,6 +77,7 @@ export default {
                     timer: 1500
                 })
             })
+            }
         }
     }
 }
