@@ -140,12 +140,16 @@ export default {
                         chatting.roomUserList.push({user:strArray[1]})
                     } else if (strArray[0] == "전체 유저 접속") {
                         chatting.allChatLog.push({user:'고', notice: strArray[1]+"님이 입장하셨습니다"})
-                        chatting.allUserList.pop({user:strArray[1]})
-                        chatting.allUserList.push({user:strArray[1]})
+                        if (strArray[1] != chatting.userName) {
+                            chatting.allUserList.pop({user:strArray[1]})
+                            chatting.allUserList.push({user:strArray[1]})
+                        }
                     } else if (strArray[0] == "방 유저 접속") {
                         chatting.roomChatLog.push({user:'고', notice: strArray[1]+"님이 입장하셨습니다"})
-                        chatting.roomUserList.pop({user:strArray[1]})
-                        chatting.roomUserList.push({user:strArray[1]})
+                        if (strArray[1] != chatting.userName) {
+                            chatting.roomUserList.pop({user:strArray[1]})
+                            chatting.roomUserList.push({user:strArray[1]})
+                        }
                     } else if (strArray[0] == "사람 나감") {
                         chatting.allChatLog.push({user:'고', notice: strArray[1]+"님이 퇴장하셨습니다"})
                         chatting.roomChatLog.push({user:'고', notice: strArray[1]+"님이 퇴장하셨습니다"}) // 방에 존재하는 사람일 경우에만 뜨게 해야함
