@@ -30,6 +30,9 @@
                 <div class="myMsg" v-if ="item.user == '나' ">
                     <span class="msg">{{item.message}}</span>
                 </div>
+                <div class="noticeMsg" v-else-if="item.user == '고'">
+                    <span>{{item.notice}}</span>
+                </div>
                 <div class="anotherMsg" v-else>
                     <span class="anotherName">{{item.user}}</span>
                     <span class="msg">{{item.message}}</span>
@@ -131,11 +134,19 @@ export default {
                 const promise = new Promise((resolve, reject) => {
                     if (strArray[0] == "방 번호") {
                         chatting.roomNum = strArray[1]
-                    } else if (strArray[0] == "전체 유저") {
+                    } else if (strArray[0] == "전체 유저 정보") {
                         chatting.allUserList.push({user:strArray[1]})
-                    } else if (strArray[0] == "방 유저") {
+                    } else if (strArray[0] == "방 유저 정보") {
+                        chatting.roomUserList.push({user:strArray[1]})
+                    } else if (strArray[0] == "전체 유저 접속") {
+                        chatting.allChatLog.push({user:'고', notice: strArray[1]+"님이 입장하셨습니다"})
+                        chatting.allUserList.push({user:strArray[1]})
+                    } else if (strArray[0] == "방 유저 접속") {
+                        chatting.roomChatLog.push({user:'고', notice: strArray[1]+"님이 입장하셨습니다"})
                         chatting.roomUserList.push({user:strArray[1]})
                     } else if (strArray[0] == "사람 나감") {
+                        chatting.allChatLog.push({user:'고', notice: strArray[1]+"님이 퇴장하셨습니다"})
+                        chatting.roomChatLog.push({user:'고', notice: strArray[1]+"님이 퇴장하셨습니다"}) // 방에 존재하는 사람일 경우에만 뜨게 해야함
                         chatting.allUserList.pop({user:strArray[1]})
                         chatting.roomUserList.pop({user:strArray[1]})
                     } else if (strArray[0] == "랜덤채팅") {
@@ -323,7 +334,7 @@ export default {
 }
 
 .chatLog {
-    height: 500px;
+    height: 600px;
     overflow-y: auto;
     padding: 10px;
 }
@@ -335,6 +346,10 @@ export default {
 .anotherMsg {
     text-align: left;
     margin-bottom: 5px;
+}
+
+.noticeMsg {
+    text-align: center;
 }
 
 .msg {
