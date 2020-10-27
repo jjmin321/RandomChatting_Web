@@ -17,9 +17,10 @@
                 <div class="roomHeader">채팅 방 목록</div>
                 <div class="roomSelect">
                     <div @click="selectAll" class="roomEl" :class="{ active: filteredChatLog === allChatLog }" data-class="1">전체 채팅</div>
-                    <div @click="selectRoom" class="roomEl" :class="{ active: filteredChatLog === randomChatLog }" data-class="2">{{roomNum}}번째 방</div>
+                    <div @click="selectRoom" class="roomEl" :class="{ active: filteredChatLog === roomChatLog }" data-class="2">{{roomNum}}번째 방</div>
                 </div>
             </div>
+            <button class="roomQuit" v-if="isJoined == true" @click="quitroom">채팅방 나가기</button>
         </div>
         <div class="chatWrap" v-if="isJoined == true">
             <div class="chatHeader" v-if="filteredChatLog === allChatLog">전체 채팅</div>
@@ -45,7 +46,7 @@
             <div class="memberList">
                 <div class="memberHeader">사람</div>
                 <div class="memberEl">{{userName}}(나)</div>
-                <div class="memberEl" v-bind:key="item" v-for = "item in userList">{{item.user}}</div>
+                <div class="memberEl" v-if="filteredChatLog == roomChatLog" v-bind:key="item" v-for = "item in roomUserList">{{item.user}}</div>
             </div>
         </div>
     </div>
@@ -66,9 +67,10 @@ export default {
             isJoined: false,
             roomNum : '0',
             message: '',
-            userList: [],
+            allUserList: [],
+            roomUserList: [],
             allChatLog: [],
-            randomChatLog: [],
+            roomChatLog: [],
             filteredChatLog: [],
             chatCoolTime : false
         }
@@ -129,15 +131,15 @@ export default {
                     if (strArray[0] == "방 번호") {
                         chatting.roomNum = strArray[1]
                     } else if (strArray[0] == "방 유저") {
-                        chatting.userList.push({user:strArray[1]})
+                        chatting.roomUserList.push({user:strArray[1]})
                     } else if (strArray[0] == "사람 나감") {
-                        chatting.userList.pop({user:strArray[1]})
+                        chatting.roomUserList.pop({user:strArray[1]})
                     } else if (strArray[0] == "랜덤채팅") {
                         if (strArray[1] == chatting.userName) {
                             console.log("내 메시지 : "+strArray[2])
-                            chatting.randomChatLog.push({user: "나", message: strArray[2]})
+                            chatting.roomChatLog.push({user: "나", message: strArray[2]})
                         } else {
-                            chatting.randomChatLog.push({user: strArray[1], message: strArray[2]})
+                            chatting.roomChatLog.push({user: strArray[1], message: strArray[2]})
                         }
                     } else if (strArray[0] == "전체채팅") {
                         if (strArray[1] == chatting.userName) {
@@ -146,6 +148,13 @@ export default {
                         } else {
                             chatting.allChatLog.push({user: strArray[1], message: strArray[2]})
                         }
+                    } else if (strArray[0] == "접속중") {
+                        swal.fire({
+                            icon: 'error',
+                            title: '한 계정으로 다중 접속은 불가능합니다',
+                            timer: 1500
+                        })
+                        chatting.quitroom();
                     }
 
                    resolve()
@@ -158,18 +167,16 @@ export default {
                 }
             } 
             this.connection.onclose = function(event) {
-                swal.fire({
-                    icon: 'error',
-                    title: '한 계정으로 다중 접속은 불가능합니다',
-                    timer: 1500
-                })
-                setTimeout(() => {
-                    location.href = '/'
-                }, 1000)
+                chatting.isJoined = false;
             }
             setTimeout(() => {
                 this.connection.send("1ᗠ"+this.userName);  
             }, 100)
+        },
+        quitroom() {
+            this.connection.close();
+            location.href = '/chatting'
+            
         },
         sendMessage() {
             if (this.filteredChatLog === this.allChatLog) {
@@ -207,7 +214,7 @@ export default {
             this.filteredChatLog = this.allChatLog
         },
         selectRoom() {
-            this.filteredChatLog = this.randomChatLog
+            this.filteredChatLog = this.roomChatLog
         },
         chatAble() {
             this.chatCoolTime = false;
@@ -253,6 +260,26 @@ export default {
 
 .roomEl.active{
     background: #f0f0f0;
+}
+
+.roomQuit {
+    width: 150px;
+    height: 50px;
+    background-color: #7600FF;
+    margin-top: 250px;
+    color: white;
+    padding: 1.5em 2em;
+    border: none;
+    transition: all .3s ease;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+    display : flex;
+    justify-content: center;
+    align-items:center;;
+    align-self: center;
+    animation: image-move 3s 0s;
+    box-shadow: 0px 3px 10px rgba(154, 66, 255, 0.9);
 }
 
 .join-btn {
