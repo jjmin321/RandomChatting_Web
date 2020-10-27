@@ -16,7 +16,7 @@
             <div class="roomList">
                 <div class="roomHeader">채팅 방 목록</div>
                 <div class="roomSelect">
-                    <div @click="selectAll" class="roomEl" :class="{ active: filteredChatLog === allChatLog }" data-class="1">전체 채팅</div>
+                    <div @click="selectAll" class="roomEl" :class="{ active: filteredChatLog === allChatLog}" data-class="1">전체 채팅</div>
                     <div @click="selectRoom" class="roomEl" :class="{ active: filteredChatLog === roomChatLog }" data-class="2">{{roomNum}}번째 방</div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
             <div class="memberList">
                 <div class="memberHeader">사람</div>
                 <div class="memberEl">{{userName}}(나)</div>
-                <div class="memberEl" v-if="filteredChatLog == roomChatLog" v-bind:key="item" v-for = "item in roomUserList">{{item.user}}</div>
+                <div class="memberEl" v-bind:key="item" v-for = "item in filteredUserList">{{item.user}}</div>
             </div>
         </div>
     </div>
@@ -69,6 +69,7 @@ export default {
             message: '',
             allUserList: [],
             roomUserList: [],
+            filteredUserList: [],
             allChatLog: [],
             roomChatLog: [],
             filteredChatLog: [],
@@ -130,9 +131,12 @@ export default {
                 const promise = new Promise((resolve, reject) => {
                     if (strArray[0] == "방 번호") {
                         chatting.roomNum = strArray[1]
+                    } else if (strArray[0] == "전체 유저") {
+                        chatting.allUserList.push({user:strArray[1]})
                     } else if (strArray[0] == "방 유저") {
                         chatting.roomUserList.push({user:strArray[1]})
                     } else if (strArray[0] == "사람 나감") {
+                        chatting.allUserList.pop({user:strArray[1]})
                         chatting.roomUserList.pop({user:strArray[1]})
                     } else if (strArray[0] == "랜덤채팅") {
                         if (strArray[1] == chatting.userName) {
@@ -212,9 +216,11 @@ export default {
         },
         selectAll() {
             this.filteredChatLog = this.allChatLog
+            this.filteredUserList = this.allUserList
         },
         selectRoom() {
             this.filteredChatLog = this.roomChatLog
+            this.filteredUserList = this.roomUserList
         },
         chatAble() {
             this.chatCoolTime = false;
