@@ -40,7 +40,7 @@
                 </div>
             </div>
             <form class="chatForm" @submit.prevent="sendMessage">
-                <input autofocus class="message" autocomplete="off" placeholder="메시지를 입력하세요" v-model="message" maxlength="100" :readonly="chatCoolTime">
+                <input id="message-box" autofocus class="message" autocomplete="off" placeholder="메시지를 입력하세요" v-model="message" maxlength="100" :readonly="chatCoolTime">
                 <input type="submit" value="보내기">
             </form>
         </div>
@@ -77,6 +77,22 @@ export default {
             roomChatLog: [],
             filteredChatLog: [],
             chatCoolTime : false
+        }
+    },
+    watch: {
+        filteredChatLog: function(val) {
+            const chatLogEl = document.getElementsByClassName('chatLog')[0]
+            if (chatLogEl) {
+                setTimeout(() => {
+                    chatLogEl.scrollTop = chatLogEl.scrollHeight;
+                }, 10)
+            }
+
+            const inputEl = document.getElementById('message-box')
+
+            if (inputEl) {
+                inputEl.focus()
+            }
         }
     },
     beforeCreate() {
@@ -339,7 +355,7 @@ export default {
 }
 
 .chatLog {
-    height: 500px;
+    height: 600px;
     overflow-y: auto;
     padding: 10px;
 }
