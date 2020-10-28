@@ -118,7 +118,7 @@ export default {
         joinroom() {
             const chatting = this;
             this.isJoined = true;  
-            this.connection = new WebSocket("ws://127.0.0.1/chatting")
+            this.connection = new WebSocket("ws://35.202.66.120/chatting")
             this.connection.onopen = function() {
                 console.log("연결 완료")
             }
