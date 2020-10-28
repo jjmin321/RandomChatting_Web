@@ -49,7 +49,6 @@ export default {
                 cookies.set('accessToken', Response.data.accessToken, { expires: 1 });
             })
             .catch((error) => { 
-                console.log(cookies.get())
                 swal.fire({
                     icon: 'warning',
                     title: error.response.data.message,

@@ -159,14 +159,12 @@ export default {
                         }
                     } else if (strArray[0] == "랜덤채팅") {
                         if (strArray[1] == chatting.userName) {
-                            console.log("내 메시지 : "+strArray[2])
                             chatting.roomChatLog.push({user: "나", message: strArray[2]})
                         } else {
                             chatting.roomChatLog.push({user: strArray[1], message: strArray[2]})
                         }
                     } else if (strArray[0] == "전체채팅") {
                         if (strArray[1] == chatting.userName) {
-                            console.log("내가 보낸 전체 메시지: "+strArray[2])
                             chatting.allChatLog.push({user: "나", message : strArray[2]})
                         } else {
                             chatting.allChatLog.push({user: strArray[1], message: strArray[2]})
@@ -224,7 +222,6 @@ export default {
             if (!this.message.trim()) {
                 return;
             } else {
-                console.log(this.message)
                 this.connection.send("3ᗠ"+this.message);
                 this.message = '';
                 this.chatCoolTime = true;
