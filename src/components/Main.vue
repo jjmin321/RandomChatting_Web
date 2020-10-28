@@ -57,7 +57,7 @@ export default {
     beforeCreate() {
       if (cookies.get('accessToken')) {
           axios.get(
-            'http://localhost:80/getInfo',
+            'http://35.202.66.120/getInfo',
             {
               headers: {
                 'Authorization': `Bearer ${cookies.get('accessToken')}`

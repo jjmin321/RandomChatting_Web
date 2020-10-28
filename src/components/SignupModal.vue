@@ -57,7 +57,7 @@ export default {
                     timer: 1500
                 })
             } else {
-                axios.post("http://localhost:80/signUp", {
+                axios.post("http://35.202.66.120/signUp", {
                 id: this.id,
                 pw: this.pw,
                 name: this.name
