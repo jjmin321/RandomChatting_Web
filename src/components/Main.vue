@@ -68,13 +68,6 @@ export default {
             this.isLogin = true
             this.userName = Response.data.Member.name
           })
-          .catch((error) => { 
-            swal.fire({
-                    icon: 'warning',
-                    title: '관리자에게 문의해주세요',
-                    timer: 1500
-                })            
-          })
       }
     },
     methods: {
