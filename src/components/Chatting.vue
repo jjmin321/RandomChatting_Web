@@ -121,7 +121,7 @@ export default {
             this.connection = new WebSocket("ws://35.202.66.120/chatting")
             this.connection.onopen = function() {
                 console.log("연결 완료")
-                this.connection.send("1ᗠ"+this.userName);  
+                chatting.connection.send("1ᗠ"+this.userName);  
             }
             this.connection.onmessage = async function(response) {
                 const chatLogEl = document.getElementsByClassName('chatLog')[0]
