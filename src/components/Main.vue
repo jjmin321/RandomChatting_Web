@@ -6,6 +6,7 @@
         <div v-else class="header-profile">
           <!-- <div class="header-profile-image"></div> -->
           <span class="header-profile-name" >{{userName}} 님, 안녕하세요</span>
+          <button class="header-left-btn" @click="editnameModalOpen">닉네임 변경</button>
         </div>
         <button v-if="isLogin == false" class="header-right-btn" @click="signupModalOpen">회원가입</button>
         <button v-else class="header-right-btn" @click="logout">로그아웃</button>
@@ -25,6 +26,7 @@
     </div>
     <login-modal v-if="loginModal" @onClose="loginModalClose" />
     <signup-modal v-if="signupModal" @onClose="signupModalClose" />
+    <editname-modal v-if="editnameModal" @onClose="editnameModalClose" />
   </div>
 </template>
 
@@ -32,6 +34,7 @@
 import axios from 'axios'
 import LoginModal from "@/components/LoginModal";
 import SignupModal from "@/components/SignupModal";
+import EditnameModal from "@/components/EditnameModal";
 import cookies from 'js-cookie'
 import swal from 'sweetalert2'
 
@@ -41,13 +44,15 @@ export default {
         return {
           loginModal: false,
           signupModal: false,
+          editnameModal: false,
           isLogin: false,
           userName: "",
         }
     },
     components: {
       LoginModal,
-      SignupModal
+      SignupModal,
+      EditnameModal
     },
     beforeCreate() {
       if (cookies.get('accessToken')) {
@@ -87,6 +92,13 @@ export default {
       },
       signupModalClose() {
         this.signupModal = false;
+      },
+      editnameModalOpen() {
+        this.editnameModal = true;
+      },
+      editnameModalClose() {
+        this.editnameModal = false;
+        location.reload()
       },
       logout() {
         cookies.remove('accessToken')
@@ -188,14 +200,17 @@ export default {
   align-items: center;
 }
 
-  .header-profile-image {
-    width: 2rem;
-    height: 2rem;
-    background-color: gray;
-    border-radius: 50%;
-    margin-right: 0.4rem;
-  }
+.header-profile-image {
+  width: 2rem;
+  height: 2rem;
+  background-color: gray;
+  border-radius: 50%;
+  margin-right: 0.4rem;
+}
 
+.header-profile-name {
+  margin-right: 10px;
+}
 
   .start-btn {
      width: 160px;
