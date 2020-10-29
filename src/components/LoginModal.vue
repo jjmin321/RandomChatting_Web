@@ -9,7 +9,7 @@
             </div>
             <div class="login-modal-box-form">
                 <span>비밀번호</span>
-                <input v-model="pw" type="text" placeholder="비밀번호를 입력해주세요." />
+                <input v-model="pw" type="password" placeholder="비밀번호를 입력해주세요." />
             </div>
                 <button class="login-modal-box-submit" @click="login">로그인</button>                
         </div>
