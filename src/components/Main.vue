@@ -16,7 +16,7 @@
       <img class="background-img" src="../static/background.svg" />
       <div class="first-box">
         <div class="first-content">
-          심심한 학교 생활에 위로가 됐으면 좋겠어요 
+          당신의 일상에 위로가 되기를 
           <h1> 대소고 랜덤채팅 </h1>
           <button class="start-btn" onclick="location.href='chatting'">
           시작하기
