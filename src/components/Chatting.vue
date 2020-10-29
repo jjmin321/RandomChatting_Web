@@ -98,7 +98,7 @@ export default {
     beforeCreate() {
       if (cookies.get('accessToken')) {
           axios.get(
-            'http://35.202.66.120/getInfo',
+            'http://35.202.66.120:8080/getInfo',
             {
               headers: {
                 'Authorization': `Bearer ${cookies.get('accessToken')}`
@@ -134,7 +134,7 @@ export default {
         joinroom() {
             const chatting = this;
             this.isJoined = true;  
-            this.connection = new WebSocket("ws://35.202.66.120/chatting")
+            this.connection = new WebSocket("ws://35.202.66.120:8080/chatting")
             this.connection.onopen = function() {
                 console.log("연결 완료")
             }
