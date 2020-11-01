@@ -355,7 +355,7 @@ export default {
 }
 
 .chatLog {
-    height: 600px;
+    height: 500px;
     overflow-y: auto;
     padding: 10px;
 }
