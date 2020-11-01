@@ -65,6 +65,8 @@
 import axios from 'axios'
 import cookies from 'js-cookie'
 import swal from 'sweetalert2'
+import WebModal from "@/components/WebModal"
+import ServerModal from "@/components/ServerModal"
 export default {
     name : 'ChattingVue',
     data: function() {
@@ -82,6 +84,10 @@ export default {
             filteredChatLog: [],
             chatCoolTime : false
         }
+    },
+    components: {
+        WebModal,
+        ServerModal,
     },
     watch: {
         filteredChatLog: function(val) {
@@ -131,6 +137,18 @@ export default {
       }
     },
     methods: {
+        webModalOpen() {
+            this.webModal = true;
+        },
+        webModalClose() {
+            this.webModal = false;
+        },
+        serverModalOpen() {
+            this.serverModal = true;
+        },
+        serverModalClose() {
+            this.serverModal = false;
+        },
         logout() {
             cookies.remove('accessToken')
             location.href = '/'
