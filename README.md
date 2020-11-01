@@ -10,6 +10,13 @@
 - 원하는 채팅을 전송하고 상대방의 채팅을 볼 수 있는 기능
 - 자동으로 랜덤채팅 방 배정 및 채팅방 나가기 기능 
 
+## 기술 Stack
+|                      | Web     | Server        | 
+|:--------------------:|:---------------:|:------------------:|
+| Developer | 제정민 | 제정민       | 
+| Develop Language | VueJs| Go| 
+| Develop Tool     | Visual Studio Code  | Visual Studio Code | 
+
 ## 시스템 구상도
 
 ![image](https://user-images.githubusercontent.com/52072077/97800503-0676c680-1c79-11eb-9156-7c5c303a30d5.png)
