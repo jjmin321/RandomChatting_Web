@@ -14,63 +14,15 @@
 </template>
 
 <script>
-import axios from 'axios'
-import swal from 'sweetalert2';
-
 export default {
     name: "web-modal",
     data: () => {
         return {
-            id: "",
-            pw: "",
-            name: ""
         }
     },
     methods: {
         onClose() {
             this.$emit("onClose");
-        },
-        web: function(id, pw, name) {
-            if (this.id.length < 4 || this.id.length > 15) {
-                swal.fire({
-                    icon: 'warning',
-                    title: '아이디를 4~15자 이내로 입력해주세요',
-                    timer: 1500
-                })
-            } else if (this.pw.length < 6 || this.pw.length > 15) {
-                swal.fire({
-                    icon: 'warning',
-                    title: '비밀번호를 6~15자 이내로 입력해주세요',
-                    timer: 1500
-                })
-            } else if (this.name.length < 2 || this.name.length > 15) {
-                swal.fire({
-                    icon: 'warning',
-                    title: '닉네임을 2~15자 이내로 입력해주세요',
-                    timer: 1500
-                })
-            } else {
-                axios.post("http://35.202.66.120:8080/signUp", {
-                id: this.id,
-                pw: this.pw,
-                name: this.name
-            })
-            .then((Response) => {
-                swal.fire({
-                    icon: 'success', 
-                    title: Response.data.message,
-                    timer: 1500
-                })
-                this.onClose()
-            })
-            .catch((error) => {
-                swal.fire({
-                    icon: 'warning',
-                    title: error.response.data.message,
-                    timer: 1500
-                })
-            })
-            }
         }
     }
 }
