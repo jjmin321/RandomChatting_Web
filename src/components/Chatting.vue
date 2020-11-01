@@ -58,6 +58,8 @@
         </div>
     </div>
     </div>
+    <web-modal v-if="webModal" @onClose="webModalClose" />
+    <server-modal v-if="serverModal" @onClose="serverModalClose" />
   </div>
 </template>
 
@@ -71,6 +73,8 @@ export default {
     name : 'ChattingVue',
     data: function() {
         return {
+            webModal: false,
+            serverModal: false,
             connection: null,
             userName: '',
             isJoined: false,
