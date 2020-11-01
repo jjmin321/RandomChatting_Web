@@ -1,10 +1,13 @@
 <template>
   <div>
     <header class="header">
-      <div class="header-container">
+        <div class="header-container-left">
+        <div @click="webModalOpen"><img src=https://img.icons8.com/color/24/000000/web.png class="header-web-description" title="클릭해보세요"/></div>
+        <div @click="serverModalOpen"><img src=https://img.icons8.com/color/24/000000/server.png class="header-server-description" title="클릭해보세요"/></div>
+        </div>
+        <div class="header-container-right">
         <button v-if="isLogin == false" class="header-left-btn" @click="loginModalOpen">로그인</button>
         <div v-else class="header-profile">
-          <!-- <div class="header-profile-image"></div> -->
           <span class="header-profile-name" >{{userName}} 님, 안녕하세요</span>
           <button class="header-left-btn" @click="editnameModalOpen">닉네임 변경</button>
         </div>
@@ -71,6 +74,18 @@ export default {
       }
     },
     methods: {
+      webModalOpen() {
+        this.webModal = true;
+      },
+      webModalClose() {
+        this.webModal = false;
+      },
+      serverModalOpen() {
+        this.serverModal = true;
+      },
+      serverModalClose() {
+        this.serverModal = false;
+      },
       loginModalOpen() {
         this.loginModal = true;
       },
@@ -107,7 +122,15 @@ export default {
     display: flex;
     justify-content: center;
     border-bottom: 1px solid gray;
-    &-container {
+    &-container-left {
+      display: flex;
+      width: 100%;
+      max-width: 1100px;
+      padding: 1.5rem 1rem;
+      padding-left: 5rem;
+      justify-content: flex;
+    }
+    &-container-right {
       display: flex;
       width: 100%;
       max-width: 1100px;
@@ -163,7 +186,7 @@ export default {
     font-weight: bold;
     display : flex;
     justify-content: center;
-    align-items:center;;
+    align-items:center;
     align-self: center;
     animation: image-move 3s 0s;
     box-shadow: 0px 3px 10px rgba(154, 66, 255, 0.9);
@@ -193,12 +216,19 @@ export default {
   align-items: center;
 }
 
-.header-profile-image {
-  width: 2rem;
-  height: 2rem;
-  background-color: gray;
-  border-radius: 50%;
+.header-web-description {
+  display: flex;
+  cursor: pointer;
+  width: 3rem;
+  height: 3rem;
   margin-right: 0.4rem;
+}
+
+.header-server-description {
+  display: flex;
+  cursor: pointer;
+  width: 3rem;
+  height: 3rem;
 }
 
 .header-profile-name {
