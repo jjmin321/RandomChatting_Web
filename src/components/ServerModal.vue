@@ -5,9 +5,8 @@
             <h3 class="server-modal-box-title">대소고 랜덤채팅 서버</h3>
             <ol>
                 <li class="server-modal-box-description">대구소프트웨어고등학교 2학년 2학기 프로젝트 실무 시간에 개발하였습니다</li>
-                <li class="server-modal-box-description">API서버와 웹 소켓 서버를 따로 분리하지 않았습니다</li>
-                <li class="server-modal-box-description">랜덤채팅을 만들 때 링크드리스트를 사용하였습니다</li>
-                <li class="server-modal-box-description">더 자세한 정보와 코드는 <a href="https://github.com/jjmin321/randomchatting_server" target="_blank">이곳</a>에 있습니다</li>
+                <li class="server-modal-box-description">자세한 정보와 코드는 <a href="https://github.com/jjmin321/randomchatting_server" target="_blank">이곳</a>에 있습니다</li>
+                <li class="server-modal-box-description">비밀번호 분실 및 궁금한 점은 <a href="https://www.facebook.com/profile.php?id=100028649371922" target="_blank">페메</a>를 남겨주세요</li>
             </ol>
         </div>
   </div>

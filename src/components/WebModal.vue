@@ -6,9 +6,9 @@
             <ol>
                 <li class="web-modal-box-description">대구소프트웨어고등학교 2학년 2학기 프로젝트 실무 시간에 개발하였습니다</li>
                 <li class="web-modal-box-description">다른 사람이 기분이 나쁠만한 닉네임이나 채팅을 자제해주세요</li>
-                <li class="web-modal-box-description">윈도우 환경에서 자동으로 스크롤이 안 내려가는 부분과 전체 채팅에서 사람 목록이 가끔 이상해지는 버그를 수정 중입니다</li>
-                <li class="web-modal-box-description">더 자세한 정보와 코드는 <a href="https://github.com/jjmin321/randomchatting_web" target="_blank">이곳</a>에 있습니다</li>
-                <li class="web-modal-box-description">버그 발견 및 요청사항은 <a href="https://www.facebook.com/profile.php?id=100028649371922" target="_blank">페메</a>로 알려주세요</li>
+                <li class="web-modal-box-description">자세한 정보와 코드는 <a href="https://github.com/jjmin321/randomchatting_web" target="_blank">이곳</a>에 있습니다</li>
+                <li class="web-modal-box-description">버그 발견 및 질문, 요청사항은 <a href="https://www.facebook.com/profile.php?id=100028649371922" target="_blank">페메</a>로 알려주세요</li>
+                <li class="web-modal-box-description">(현재 버그)윈도우 환경에서 자동으로 스크롤이 안 내려가는 부분과 전체 채팅에서 사람 목록이 가끔 이상해지는 버그를 수정 중입니다</li>
             </ol>
         </div>
   </div>
