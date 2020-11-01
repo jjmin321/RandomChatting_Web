@@ -10,13 +10,6 @@
 - 원하는 채팅을 전송하고 상대방의 채팅을 볼 수 있는 기능
 - 자동으로 랜덤채팅 방 배정 및 채팅방 나가기 기능 
 
-## 기술 Stack
-|                      | Android     | Server        | 
-|:--------------------:|:---------------:|:------------------:|
-| Developer | 박진 | 제정민       | 
-| Develop Language | Kotlin| NodeJs| 
-| Develop Tool     | Android Studio  | Visual Studio Code | 
-
 ## 시스템 구상도
 
 ![image](https://user-images.githubusercontent.com/52072077/97800503-0676c680-1c79-11eb-9156-7c5c303a30d5.png)
@@ -32,4 +25,4 @@ VueJS, Scss, Axios를 사용하여 프론트엔드를 제작하였습니다
 
 ![back-end](https://user-images.githubusercontent.com/52072077/97800688-a1bc6b80-1c7a-11eb-8946-20e0e87b9c4b.png)
 
-Go, Echo, PostgreSQL 등을 사용하여 백엔드를 제작하였습니다. PostgreSQL을 사용하였고 GCP와 Linux Ubuntu를 통하여 배포하였습니다
+Go, Echo, PostgreSQL 등을 사용하여 백엔드를 제작하였고 GCP와 Ubuntu를 사용해 배포하였습니다.
