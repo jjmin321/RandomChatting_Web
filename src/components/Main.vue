@@ -2,8 +2,8 @@
   <div>
     <header class="header">
         <div class="header-container-left">
-        <div @click="webModalOpen"><img src=https://img.icons8.com/color/24/000000/web.png class="header-web-description" title="클릭해보세요"/></div>
-        <div @click="serverModalOpen"><img src=https://img.icons8.com/color/24/000000/server.png class="header-server-description" title="클릭해보세요"/></div>
+        <div @click="webModalOpen"><img src=https://img.icons8.com/color/24/000000/web.png class="header-web-description" title="대소고 랜덤채팅 웹 설명서"/></div>
+        <div @click="serverModalOpen"><img src=https://img.icons8.com/color/24/000000/server.png class="header-server-description" title="대소고 랜덤채팅 서버 설명서"/></div>
         </div>
         <div class="header-container-right">
         <button v-if="isLogin == false" class="header-left-btn" @click="loginModalOpen">로그인</button>
@@ -27,6 +27,8 @@
         </div>
       </div>
     </div>
+    <web-modal v-if="webModal" @onClose="webModalClose" />
+    <server-modal v-if="serverModal" @onClose="serverModalClose" />
     <login-modal v-if="loginModal" @onClose="loginModalClose" />
     <signup-modal v-if="signupModal" @onClose="signupModalClose" />
     <editname-modal v-if="editnameModal" @onClose="editnameModalClose" />
@@ -35,9 +37,11 @@
 
 <script>
 import axios from 'axios'
-import LoginModal from "@/components/LoginModal";
-import SignupModal from "@/components/SignupModal";
-import EditnameModal from "@/components/EditnameModal";
+import WebModal from "@/components/WebModal"
+import ServerModal from "@/components/ServerModal"
+import LoginModal from "@/components/LoginModal"
+import SignupModal from "@/components/SignupModal"
+import EditnameModal from "@/components/EditnameModal"
 import cookies from 'js-cookie'
 import swal from 'sweetalert2'
 
@@ -45,6 +49,8 @@ export default {
     name : "MainVue",
     data: function(){
         return {
+          webModal: false,
+          serverModal: false,
           loginModal: false,
           signupModal: false,
           editnameModal: false,
@@ -53,6 +59,8 @@ export default {
         }
     },
     components: {
+      WebModal,
+      ServerModal,
       LoginModal,
       SignupModal,
       EditnameModal
