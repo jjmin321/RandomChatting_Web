@@ -1,7 +1,11 @@
 <template>
   <div>
       <header class="header">
-      <div class="header-container">
+          <div class="header-container-left">
+        <div @click="webModalOpen"><img src=https://img.icons8.com/color/24/000000/web.png class="header-web-description" title="대소고 랜덤채팅 웹 설명서"/></div>
+        <div @click="serverModalOpen"><img src=https://img.icons8.com/color/24/000000/server.png class="header-server-description" title="대소고 랜덤채팅 서버 설명서"/></div>
+        </div>
+      <div class="header-container-right">
         <div class="header-profile">
           <!-- <div class="header-profile-image"></div> -->
           <span class="header-profile-name" >{{userName}} 님, 안녕하세요</span>
