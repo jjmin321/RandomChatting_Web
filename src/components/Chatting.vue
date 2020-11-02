@@ -65,13 +65,11 @@ import axios from 'axios'
 import cookies from 'js-cookie'
 import swal from 'sweetalert2'
 import DescriptionModal from "@/components/DescriptionModal"
-import ServerModal from "@/components/ServerModal"
 export default {
     name : 'ChattingVue',
     data: function() {
         return {
             descriptionModal: false,
-            serverModal: false,
             connection: null,
             userName: '',
             isJoined: false,
@@ -88,7 +86,6 @@ export default {
     },
     components: {
         DescriptionModal,
-        ServerModal,
     },
     watch: {
         filteredChatLog: function(val) {
