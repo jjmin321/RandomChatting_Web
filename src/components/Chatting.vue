@@ -19,14 +19,14 @@
                 <div class="roomHeader">채팅 방 목록</div>
                 <div class="roomSelect">
                     <div @click="selectAll" class="roomEl" :class="{ active: filteredChatLog === allChatLog}" data-class="1">전체 채팅</div>
-                    <div @click="selectRoom" class="roomEl" :class="{ active: filteredChatLog === roomChatLog }" data-class="2">{{roomNum}}번째 방</div>
+                    <div @click="selectRoom" class="roomEl" :class="{ active: filteredChatLog === roomChatLog }" data-class="2">랜덤 채팅</div>
                 </div>
             </div>
             <button class="roomQuit" v-if="isJoined == true" @click="quitroom">채팅방 나가기</button>
         </div>
         <div class="chatWrap" v-if="isJoined == true">
             <div class="chatHeader" v-if="filteredChatLog === allChatLog">전체 채팅</div>
-            <div class="chatHeader" v-else>{{roomNum}}번째 방</div>
+            <div class="chatHeader" v-else>랜덤 채팅</div>
             <div ref="chatBox" class="chatLog">
                 <div v-bind:key="item" v-for= "item in filteredChatLog">
                 <div class="myMsg" v-if ="item.user == '나' ">
