@@ -1,9 +1,7 @@
 <template>
   <div>
     <header class="header">
-        <div class="header-container-left">
-        </div>
-        <div class="header-container-right">
+        <div class="header-container">
         <button v-if="isLogin == false" class="header-left-btn" @click="loginModalOpen">로그인</button>
         <div v-else class="header-profile">
           <span class="header-profile-name" >{{userName}} 님, 안녕하세요</span>
@@ -11,7 +9,7 @@
         </div>
         <button v-if="isLogin == false" class="header-right-btn" @click="signupModalOpen">회원가입</button>
         <button v-else class="header-right-btn" @click="logout">로그아웃</button>
-        <div @click="descriptionModalOpen" class="header-description" >안내사항</div>
+        <div @click="descriptionModalOpen" class="header-description" >?</div>
       </div>
     </header>
     <div class="first">
@@ -119,20 +117,13 @@ export default {
     display: flex;
     justify-content: center;
     border-bottom: 1px solid gray;
-    &-container-left {
+    width: 100%;
+    &-container {
       display: flex;
       width: 100%;
-      max-width: 1100px;
-      padding: 1.5rem 1rem;
-      padding-left: 5rem;
-      justify-content: flex;
-    }
-    &-container-right {
-      display: flex;
-      width: 100%;
-      max-width: 1100px;
-      padding: 1.5rem 1rem;
+      padding: 1.5rem 3rem;
       justify-content: flex-end;
+      align-items: center;
     }
   }
 
@@ -173,10 +164,9 @@ export default {
   .header-left-btn {
     width: 100px;
     height: 40px;
-     background-color: #7600FF;
+    background-color: #7600FF;
     color: white;
     margin-right: 10px;
-    padding: 1.5em 2em;
     border: none;
     transition: all .3s ease;
     cursor: pointer;
@@ -210,11 +200,18 @@ export default {
   }
 
 .header-description {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: skyblue;
   display: flex;
-  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  font-weight: 700;
   font-size: 1rem;
-  margin-top: 0.6rem;
-  margin-right: 1rem;
+  cursor: pointer;
+  margin-left: 1rem;
 }
 
 .header-profile {
@@ -252,10 +249,7 @@ export default {
     }
   }
   button{
-    border-top-left-radius: 5px; 
-    border-bottom-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-radius: 5px;
     background-color: lightblue;
   }
   

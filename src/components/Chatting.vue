@@ -1,14 +1,12 @@
 <template>
   <div>
       <header class="header">
-          <div class="header-container-left">
-        </div>
-      <div class="header-container-right">
+      <div class="header-container">
         <div class="header-profile">
           <span class="header-profile-name" >{{userName}} 님, 안녕하세요</span>
         </div>
         <button class="header-right-btn" @click="logout">로그아웃</button>
-        <div @click="descriptionModalOpen" class="header-description" >안내사항</div>
+        <div @click="descriptionModalOpen" class="header-description" >?</div>
       </div>
     </header>
 
