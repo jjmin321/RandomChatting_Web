@@ -156,14 +156,10 @@ export default {
             this.isJoined = true;  
             this.connection = new WebSocket("ws://35.202.66.120:8080/chatting")
             this.connection.onopen = function() {
-                console.log("연결 완료")
+                // console.log("정상적으로 연결되었습니다")
             }
             this.connection.onmessage = async function(response) {
                 const chatLogEl = document.getElementsByClassName('chatLog')[0]
-                // let isBottom = false;
-                // if (chatLogEl.scrollHeight - chatLogEl.scrollTop === chatLogEl.clientHeight) {
-                //     isBottom = true;
-                // }
 
                 var strArray = response.data.split('ᗠ')
 
@@ -177,7 +173,6 @@ export default {
                     } else if (strArray[0] == "전체 유저 접속") {
                         chatting.allChatLog.push({user:'고', notice: strArray[1]+"님이 입장하셨습니다"})
                         if (strArray[1] != chatting.userName) {
-                            chatting.allUserList.pop({user:strArray[1]})
                             chatting.allUserList.push({user:strArray[1]})
                         }
                     } else if (strArray[0] == "방 유저 접속") {
@@ -188,7 +183,6 @@ export default {
                         }
                     } else if (strArray[0] == "사람 나감") {
                         chatting.allChatLog.push({user:'고', notice: strArray[2]+"님이 퇴장하셨습니다"})
-                        chatting.allUserList.pop({user:strArray[2]})
                         if (chatting.roomNum == strArray[1]) {
                             chatting.roomChatLog.push({user:'고', notice: strArray[2]+"님이 퇴장하셨습니다"}) 
                             chatting.roomUserList.pop({user:strArray[2]})
@@ -219,11 +213,7 @@ export default {
 
                 await promise
 
-                // if (isBottom) {
-                //     chatLogEl.scrollTop = chatLogEl.scrollHeight
-                // }
                 chatLogEl.scrollTop = chatLogEl.scrollHeight
-                // 제정민, 임규민 ,이용재 면 갑자기 이용재가 지워지는 경우.
             } 
             this.connection.onclose = function(event) {
                 chatting.isJoined = false;
