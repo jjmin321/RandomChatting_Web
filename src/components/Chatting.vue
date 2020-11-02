@@ -127,11 +127,11 @@ export default {
           swal.fire({
                 icon: 'warning',
                 title: '로그인이 필요합니다',
-                timer: 1500
+                timer: 1000
             })            
             setTimeout(() => {
                    location.href= '/';
-            }, 5000);
+            }, 500);
       }
     },
     methods: {
