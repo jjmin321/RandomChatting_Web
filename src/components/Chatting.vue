@@ -131,7 +131,7 @@ export default {
             })            
             setTimeout(() => {
                    location.href= '/';
-            }, 2000);
+            }, 5000);
       }
     },
     methods: {
