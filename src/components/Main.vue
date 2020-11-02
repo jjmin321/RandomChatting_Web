@@ -2,8 +2,6 @@
   <div>
     <header class="header">
         <div class="header-container-left">
-        <div @click="webModalOpen"><img src=https://img.icons8.com/color/24/000000/web.png class="header-web-description" title="대소고 랜덤채팅 웹 설명서"/></div>
-        <div @click="serverModalOpen"><img src=https://img.icons8.com/color/24/000000/server.png class="header-server-description" title="대소고 랜덤채팅 서버 설명서"/></div>
         </div>
         <div class="header-container-right">
         <button v-if="isLogin == false" class="header-left-btn" @click="loginModalOpen">로그인</button>
@@ -13,6 +11,7 @@
         </div>
         <button v-if="isLogin == false" class="header-right-btn" @click="signupModalOpen">회원가입</button>
         <button v-else class="header-right-btn" @click="logout">로그아웃</button>
+        <div @click="descriptionModalOpen" class="header-description" >안내사항</div>
       </div>
     </header>
     <div class="first">
@@ -27,8 +26,7 @@
         </div>
       </div>
     </div>
-    <web-modal v-if="webModal" @onClose="webModalClose" />
-    <server-modal v-if="serverModal" @onClose="serverModalClose" />
+    <description-modal v-if="descriptionModal" @onClose="descriptionModalClose" />
     <login-modal v-if="loginModal" @onClose="loginModalClose" />
     <signup-modal v-if="signupModal" @onClose="signupModalClose" />
     <editname-modal v-if="editnameModal" @onClose="editnameModalClose" />
@@ -37,8 +35,7 @@
 
 <script>
 import axios from 'axios'
-import WebModal from "@/components/WebModal"
-import ServerModal from "@/components/ServerModal"
+import DescriptionModal from "@/components/DescriptionModal"
 import LoginModal from "@/components/LoginModal"
 import SignupModal from "@/components/SignupModal"
 import EditnameModal from "@/components/EditnameModal"
@@ -49,8 +46,7 @@ export default {
     name : "MainVue",
     data: function(){
         return {
-          webModal: false,
-          serverModal: false,
+          descriptionModal: false,
           loginModal: false,
           signupModal: false,
           editnameModal: false,
@@ -59,8 +55,7 @@ export default {
         }
     },
     components: {
-      WebModal,
-      ServerModal,
+      DescriptionModal,
       LoginModal,
       SignupModal,
       EditnameModal
@@ -82,17 +77,11 @@ export default {
       }
     },
     methods: {
-      webModalOpen() {
-        this.webModal = true;
+      descriptionModalOpen() {
+        this.descriptionModal = true;
       },
-      webModalClose() {
-        this.webModal = false;
-      },
-      serverModalOpen() {
-        this.serverModal = true;
-      },
-      serverModalClose() {
-        this.serverModal = false;
+      descriptionModalClose() {
+        this.descriptionModal = false;
       },
       loginModalOpen() {
         this.loginModal = true;
@@ -186,6 +175,7 @@ export default {
     height: 40px;
      background-color: #7600FF;
     color: white;
+    margin-right: 10px;
     padding: 1.5em 2em;
     border: none;
     transition: all .3s ease;
@@ -203,7 +193,7 @@ export default {
     width: 100px;
     height: 40px;
     background-color: #7600FF;
-    margin-left: 10px;
+    margin-right: 10px;
     color: white;
     padding: 1.5em 2em;
     border: none;
@@ -219,24 +209,17 @@ export default {
     box-shadow: 0px 3px 10px rgba(154, 66, 255, 0.9);
   }
 
+.header-description {
+  display: flex;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 0.6rem;
+  margin-right: 1rem;
+}
+
 .header-profile {
   display: flex;
   align-items: center;
-}
-
-.header-web-description {
-  display: flex;
-  cursor: pointer;
-  width: 3rem;
-  height: 3rem;
-  margin-right: 0.4rem;
-}
-
-.header-server-description {
-  display: flex;
-  cursor: pointer;
-  width: 3rem;
-  height: 3rem;
 }
 
 .header-profile-name {

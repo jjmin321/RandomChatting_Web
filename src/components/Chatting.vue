@@ -2,15 +2,13 @@
   <div>
       <header class="header">
           <div class="header-container-left">
-        <div @click="webModalOpen"><img src=https://img.icons8.com/color/24/000000/web.png class="header-web-description" title="대소고 랜덤채팅 웹 설명서"/></div>
-        <div @click="serverModalOpen"><img src=https://img.icons8.com/color/24/000000/server.png class="header-server-description" title="대소고 랜덤채팅 서버 설명서"/></div>
         </div>
       <div class="header-container-right">
         <div class="header-profile">
-          <!-- <div class="header-profile-image"></div> -->
           <span class="header-profile-name" >{{userName}} 님, 안녕하세요</span>
         </div>
         <button class="header-right-btn" @click="logout">로그아웃</button>
+        <div @click="descriptionModalOpen" class="header-description" >안내사항</div>
       </div>
     </header>
 
@@ -58,8 +56,7 @@
         </div>
     </div>
     </div>
-    <web-modal v-if="webModal" @onClose="webModalClose" />
-    <server-modal v-if="serverModal" @onClose="serverModalClose" />
+    <description-modal v-if="descriptionModal" @onClose="descriptionModalClose" />
   </div>
 </template>
 
@@ -67,13 +64,13 @@
 import axios from 'axios'
 import cookies from 'js-cookie'
 import swal from 'sweetalert2'
-import WebModal from "@/components/WebModal"
+import DescriptionModal from "@/components/DescriptionModal"
 import ServerModal from "@/components/ServerModal"
 export default {
     name : 'ChattingVue',
     data: function() {
         return {
-            webModal: false,
+            descriptionModal: false,
             serverModal: false,
             connection: null,
             userName: '',
@@ -90,7 +87,7 @@ export default {
         }
     },
     components: {
-        WebModal,
+        DescriptionModal,
         ServerModal,
     },
     watch: {
@@ -141,11 +138,11 @@ export default {
       }
     },
     methods: {
-        webModalOpen() {
-            this.webModal = true;
+        descriptionModalOpen() {
+            this.descriptionModal = true;
         },
-        webModalClose() {
-            this.webModal = false;
+        descriptionModalClose() {
+            this.descriptionModal = false;
         },
         serverModalOpen() {
             this.serverModal = true;
