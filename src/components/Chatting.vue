@@ -160,10 +160,10 @@ export default {
             }
             this.connection.onmessage = async function(response) {
                 const chatLogEl = document.getElementsByClassName('chatLog')[0]
-                let isBottom = false;
-                if (chatLogEl.scrollHeight - chatLogEl.scrollTop === chatLogEl.clientHeight) {
-                    isBottom = true;
-                }
+                // let isBottom = false;
+                // if (chatLogEl.scrollHeight - chatLogEl.scrollTop === chatLogEl.clientHeight) {
+                //     isBottom = true;
+                // }
 
                 var strArray = response.data.split('ᗠ')
 
@@ -219,9 +219,11 @@ export default {
 
                 await promise
 
-                if (isBottom) {
-                    chatLogEl.scrollTop = chatLogEl.scrollHeight
-                }
+                // if (isBottom) {
+                //     chatLogEl.scrollTop = chatLogEl.scrollHeight
+                // }
+                chatLogEl.scrollTop = chatLogEl.scrollHeight
+                // 제정민, 임규민 ,이용재 면 갑자기 이용재가 지워지는 경우.
             } 
             this.connection.onclose = function(event) {
                 chatting.isJoined = false;
