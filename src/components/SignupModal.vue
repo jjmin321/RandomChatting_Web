@@ -9,7 +9,7 @@
             </div>
             <div class="signup-modal-box-form">
                 <span>비밀번호</span>
-                <input v-model="pw" type="text" placeholder="6~15자 이내로 입력해주세요." />
+                <input v-model="pw" type="password" placeholder="6~15자 이내로 입력해주세요." />
             </div>
             <div class="signup-modal-box-form">
                 <span>닉네임</span>
