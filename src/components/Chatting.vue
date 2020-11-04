@@ -329,6 +329,7 @@ export default {
     align-self: center;
     animation: image-move 3s 0s;
     box-shadow: 0px 3px 10px rgba(154, 66, 255, 0.9);
+    outline: none;
 }
 
 .join-btn {
@@ -349,6 +350,7 @@ export default {
     align-self: center;
     animation: image-move 3s 0s;
     box-shadow: 0px 3px 10px rgba(154, 66, 255, 0.9);
+    outline: none;
   }
 
 .chatWrap {

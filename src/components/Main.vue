@@ -178,6 +178,7 @@ export default {
     align-self: center;
     animation: image-move 3s 0s;
     box-shadow: 0px 3px 10px rgba(154, 66, 255, 0.9);
+    outline: none;
   }
   .header-right-btn {
     width: 100px;
@@ -193,10 +194,11 @@ export default {
     font-weight: bold;
     display : flex;
     justify-content: center;
-    align-items:center;;
+    align-items:center;
     align-self: center;
     animation: image-move 3s 0s;
     box-shadow: 0px 3px 10px rgba(154, 66, 255, 0.9);
+    outline: none;
   }
 
 .header-description {
