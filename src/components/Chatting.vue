@@ -87,7 +87,7 @@ export default {
     },
     watch: {
         filteredChatLog: function(val) {
-            const chatLogEl = document.getElementsByClassName('chatLog')[0]
+            const chatLogEl = document.getElementsByClassName('chatLog')
             if (chatLogEl) {
                 setTimeout(() => {
                     chatLogEl.scrollTop = chatLogEl.scrollHeight;
@@ -157,8 +157,6 @@ export default {
                 // console.log("정상적으로 연결되었습니다")
             }
             this.connection.onmessage = function(response) {
-                const chatLogEl = document.getElementsByClassName('chatLog')[0]
-
                 var strArray = response.data.split('ᗠ')
 
                 console.log(strArray[0]+strArray[1]+strArray[2])
@@ -206,8 +204,10 @@ export default {
                     })
                     chatting.quitroom();
                 }
-
-                chatLogEl.scrollTop = chatLogEl.scrollHeight
+                const chatLogEl = document.getElementsByClassName('chatLog')[0]
+                setTimeout(() => {
+                    chatLogEl.scrollTop = chatLogEl.scrollHeight;
+                }, 20)
             } 
             this.connection.onclose = function(event) {
                 chatting.isJoined = false;
