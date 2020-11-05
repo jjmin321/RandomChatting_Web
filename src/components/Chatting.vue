@@ -156,61 +156,56 @@ export default {
             this.connection.onopen = function() {
                 // console.log("정상적으로 연결되었습니다")
             }
-            this.connection.onmessage = async function(response) {
+            this.connection.onmessage = function(response) {
                 const chatLogEl = document.getElementsByClassName('chatLog')[0]
 
                 var strArray = response.data.split('ᗠ')
 
-                const promise = new Promise((resolve, reject) => {
-                    if (strArray[0] == "방 번호") {
-                        chatting.roomNum = strArray[1]
-                    } else if (strArray[0] == "전체 유저 정보") {
-                        chatting.allUserList.push({user:strArray[1]})
-                    } else if (strArray[0] == "방 유저 정보") {
-                        chatting.roomUserList.push({user:strArray[1]})
-                    } else if (strArray[0] == "전체 유저 접속") {
-                        chatting.allChatLog.push({user:'고', notice: strArray[1]+"님이 입장하셨습니다"})
-                        if (strArray[1] != chatting.userName) {
-                            chatting.allUserList.push({user:strArray[1]})   
-                        }
-                    } else if (strArray[0] == "방 유저 접속") {
-                        chatting.roomChatLog.push({user:'고', notice: strArray[1]+"님이 입장하셨습니다"})
-                        if (strArray[1] != chatting.userName) {
-                            chatting.roomUserList.pop({user:strArray[1]})
-                            chatting.roomUserList.push({user:strArray[1]})
-                        }
-                    } else if (strArray[0] == "사람 나감") {
-                        chatting.allChatLog.push({user:'고', notice: strArray[2]+"님이 퇴장하셨습니다"})
-                        chatting.allUserList.pop({user:strArray[2]})
-                        if (chatting.roomNum == strArray[1]) {
-                            chatting.roomChatLog.push({user:'고', notice: strArray[2]+"님이 퇴장하셨습니다"}) 
-                            chatting.roomUserList.pop({user:strArray[2]})
-                        }
-                    } else if (strArray[0] == "랜덤채팅") {
-                        if (strArray[1] == chatting.userName) {
-                            chatting.roomChatLog.push({user: "나", message: strArray[2]})
-                        } else {
-                            chatting.roomChatLog.push({user: strArray[1], message: strArray[2]})
-                        }
-                    } else if (strArray[0] == "전체채팅") {
-                        if (strArray[1] == chatting.userName) {
-                            chatting.allChatLog.push({user: "나", message : strArray[2]})
-                        } else {
-                            chatting.allChatLog.push({user: strArray[1], message: strArray[2]})
-                        }
-                    } else if (strArray[0] == "접속중") {
-                        swal.fire({
-                            icon: 'error',
-                            title: '한 계정으로 다중 접속은 불가능합니다',
-                            timer: 1500
-                        })
-                        chatting.quitroom();
+                console.log(strArray[0]+strArray[1]+strArray[2])
+                if (strArray[0] == "방 번호") {
+                    chatting.roomNum = strArray[1]
+                } else if (strArray[0] == "전체 유저 정보") {
+                    chatting.allUserList.push({user:strArray[1]})
+                } else if (strArray[0] == "방 유저 정보") {
+                    chatting.roomUserList.push({user:strArray[1]})
+                } else if (strArray[0] == "전체 유저 접속") {
+                    chatting.allChatLog.push({user:'고', notice: strArray[1]+"님이 입장하셨습니다"})
+                    if (strArray[1] != chatting.userName) {
+                        chatting.allUserList.push({user:strArray[1]})   
                     }
-
-                   resolve()
-                })
-
-                await promise
+                } else if (strArray[0] == "방 유저 접속") {
+                    chatting.roomChatLog.push({user:'고', notice: strArray[1]+"님이 입장하셨습니다"})
+                    if (strArray[1] != chatting.userName) {
+                        chatting.roomUserList.pop({user:strArray[1]})
+                        chatting.roomUserList.push({user:strArray[1]})
+                    }
+                } else if (strArray[0] == "사람 나감") {
+                    chatting.allChatLog.push({user:'고', notice: strArray[2]+"님이 퇴장하셨습니다"})
+                    chatting.allUserList.pop({user:strArray[2]})
+                    if (chatting.roomNum == strArray[1]) {
+                        chatting.roomChatLog.push({user:'고', notice: strArray[2]+"님이 퇴장하셨습니다"}) 
+                        chatting.roomUserList.pop({user:strArray[2]})
+                    }
+                } else if (strArray[0] == "랜덤채팅") {
+                    if (strArray[1] == chatting.userName) {
+                        chatting.roomChatLog.push({user: "나", message: strArray[2]})
+                    } else {
+                        chatting.roomChatLog.push({user: strArray[1], message: strArray[2]})
+                    }
+                } else if (strArray[0] == "전체채팅") {
+                    if (strArray[1] == chatting.userName) {
+                        chatting.allChatLog.push({user: "나", message : strArray[2]})
+                    } else {
+                        chatting.allChatLog.push({user: strArray[1], message: strArray[2]})
+                    }
+                } else if (strArray[0] == "접속중") {
+                    swal.fire({
+                        icon: 'error',
+                        title: '한 계정으로 다중 접속은 불가능합니다',
+                        timer: 1500
+                    })
+                    chatting.quitroom();
+                }
 
                 chatLogEl.scrollTop = chatLogEl.scrollHeight
             } 
@@ -219,7 +214,7 @@ export default {
             }
             setTimeout(() => {
                 this.connection.send("1ᗠ"+this.userName);  
-            }, 500)
+            }, 750)
         },
         quitroom() {
             this.connection.close();
@@ -329,7 +324,6 @@ export default {
     align-self: center;
     animation: image-move 3s 0s;
     box-shadow: 0px 3px 10px rgba(154, 66, 255, 0.9);
-    outline: none;
 }
 
 .join-btn {
