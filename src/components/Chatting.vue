@@ -16,8 +16,8 @@
             <div class="roomList">
                 <div class="roomHeader">채팅 방 목록</div>
                 <div class="roomSelect">
-                    <div @click="selectAll" class="roomEl" :class="{ active: filteredChatLog === allChatLog}" data-class="1">전체 채팅</div>
                     <div @click="selectRoom" class="roomEl" :class="{ active: filteredChatLog === roomChatLog }" data-class="2">랜덤 채팅</div>
+                    <div @click="selectAll" class="roomEl" :class="{ active: filteredChatLog === allChatLog}" data-class="1">전체 채팅</div>
                 </div>
             </div>
             <button class="roomQuit" v-if="isJoined == true" @click="quitroom">채팅방 나가기</button>
@@ -44,7 +44,7 @@
                 <input type="submit" value="보내기">
             </form>
         </div>
-        <button class="join-btn" v-else @click="[joinroom(), selectAll()]">입장하기</button>
+        <button class="join-btn" v-else @click="[joinroom(), selectRoom()]">입장하기</button>
         <div class="memberWrap">
             <div class="memberList">
                 <div class="memberHeader">사람</div>
