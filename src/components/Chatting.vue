@@ -176,9 +176,9 @@ export default {
                         chatting.roomUserList.push(strArray[1])
                     }
                 } else if (strArray[0] == "사람 나감") {
-                    chatting.deleteUser = strArray[2]
                     chatting.allChatLog.push({user:'고', notice: strArray[2]+"님이 퇴장하셨습니다"})
-
+                    console.log("나간 사람: ", strArray[2])
+                    console.log(chatting.allUserList.splice(chatting.allUserList.indexOf(strArray[2]), 1))
                     if (chatting.roomNum == strArray[1]) {
                         chatting.roomChatLog.push({user:'고', notice: strArray[2]+"님이 퇴장하셨습니다"}) 
                         chatting.roomUserList.pop(strArray[2])
