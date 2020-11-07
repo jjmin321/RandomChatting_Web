@@ -49,7 +49,7 @@
             <div class="memberList">
                 <div class="memberHeader">사람</div>
                 <div class="memberEl">{{userName}}(나)</div>
-                <div class="memberEl" v-bind:key="item" v-for = "item in filteredUserList">{{item.user}}</div>
+                <div class="memberEl" v-bind:key="item" v-for = "item in filteredUserList">{{item}}</div>
             </div>
         </div>
     </div>
@@ -70,6 +70,7 @@ export default {
             descriptionModal: false,
             connection: null,
             userName: '',
+            deleteUser: '',
             isJoined: false,
             roomNum : '0',
             message: '',
@@ -157,31 +158,30 @@ export default {
             this.connection.onmessage = function(response) {
                 const chatLogEl = document.getElementsByClassName('chatLog')[0]
                 var strArray = response.data.split('ᗠ')
-
-                console.log(strArray[0]+strArray[1]+strArray[2])
                 if (strArray[0] == "방 번호") {
                     chatting.roomNum = strArray[1]
                 } else if (strArray[0] == "전체 유저 정보") {
-                    chatting.allUserList.push({user:strArray[1]})
+                    chatting.allUserList.push(strArray[1])
                 } else if (strArray[0] == "방 유저 정보") {
-                    chatting.roomUserList.push({user:strArray[1]})
+                    chatting.roomUserList.push(strArray[1])
                 } else if (strArray[0] == "전체 유저 접속") {
                     chatting.allChatLog.push({user:'고', notice: strArray[1]+"님이 입장하셨습니다"})
                     if (strArray[1] != chatting.userName) {
-                        chatting.allUserList.push({user:strArray[1]})   
+                        chatting.allUserList.push(strArray[1])   
                     }
                 } else if (strArray[0] == "방 유저 접속") {
                     chatting.roomChatLog.push({user:'고', notice: strArray[1]+"님이 입장하셨습니다"})
                     if (strArray[1] != chatting.userName) {
-                        chatting.roomUserList.pop({user:strArray[1]})
-                        chatting.roomUserList.push({user:strArray[1]})
+                        chatting.roomUserList.pop(strArray[1])
+                        chatting.roomUserList.push(strArray[1])
                     }
                 } else if (strArray[0] == "사람 나감") {
+                    chatting.deleteUser = strArray[2]
                     chatting.allChatLog.push({user:'고', notice: strArray[2]+"님이 퇴장하셨습니다"})
-                    chatting.allUserList.pop({user:strArray[2]})
+
                     if (chatting.roomNum == strArray[1]) {
                         chatting.roomChatLog.push({user:'고', notice: strArray[2]+"님이 퇴장하셨습니다"}) 
-                        chatting.roomUserList.pop({user:strArray[2]})
+                        chatting.roomUserList.pop(strArray[2])
                     }
                 } else if (strArray[0] == "랜덤채팅") {
                     if (strArray[1] == chatting.userName) {
