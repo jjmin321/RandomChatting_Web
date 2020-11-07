@@ -179,9 +179,10 @@ export default {
                     if (chatting.allUserList.indexOf(strArray[2]) != -1) {
                         chatting.allChatLog.push({user:'고', notice: strArray[2]+"님이 퇴장하셨습니다"})    
                         chatting.allUserList.splice(chatting.allUserList.indexOf(strArray[2]), 1)
-                        if (chatting.roomNum == strArray[1]) {
+                        // 유저가 나갔을 때 or 다중 접속으로 강제 퇴장 당한 유저가 같은 랜덤 채팅방일 때
+                        if (chatting.roomNum == strArray[1] || chatting.roomUserList.indexOf(strArray[2]) != -1) {
                             chatting.roomChatLog.push({user:'고', notice: strArray[2]+"님이 퇴장하셨습니다"}) 
-                            chatting.roomUserList.pop(strArray[2])
+                            chatting.roomUserList.pop()
                         }
                     }
                 } else if (strArray[0] == "랜덤채팅") {
