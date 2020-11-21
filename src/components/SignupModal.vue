@@ -1,5 +1,5 @@
 <template>
-  <div class="signup-modal">
+  <div class="signup-modal"  @keyup.enter="signup">
         <div class="signup-modal-area" @click="onClose"/>
         <div class="signup-modal-box">
             <h3 class="signup-modal-box-title">회원가입</h3>

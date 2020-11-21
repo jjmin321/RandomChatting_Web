@@ -1,11 +1,11 @@
 <template>
-  <div class="login-modal">
+  <div class="login-modal" @keyup.enter="login">
         <div class="login-modal-area" @click="onClose"/>
         <div class="login-modal-box">
             <h3 class="login-modal-box-title">로그인</h3>
             <div class="login-modal-box-form">
                 <span>아이디</span>
-                <input v-model="id" type="text" placeholder="아이디를 입력해주세요." autofocus />
+                <input v-model="id" type="text" placeholder="아이디를 입력해주세요." autofocus/>
             </div>
             <div class="login-modal-box-form">
                 <span>비밀번호</span>

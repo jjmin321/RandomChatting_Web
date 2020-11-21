@@ -1,5 +1,5 @@
 <template>
-  <div class="editname-modal">
+  <div class="editname-modal"  @keyup.enter="editname">
         <div class="editname-modal-area" @click="onClose"/>
         <div class="editname-modal-box">
             <h3 class="editname-modal-box-title">닉네임 변경</h3>
