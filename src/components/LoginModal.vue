@@ -17,10 +17,10 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import axios from 'axios'
 import swal from 'sweetalert2'
-import cookies from 'js-cookie' // https://www.npmjs.com/package/js-cookie
-
+import cookies from 'js-cookie'
 export default {
     name: "login-modal",
     data: () => {
@@ -34,7 +34,7 @@ export default {
             this.$emit("onClose");
         },
         login: function(id, pw) {
-            axios.post("http://35.202.66.120:8080/signIn", {
+            axios.post("http://34.64.222.201:8080/signIn", {
                 id: this.id,
                 pw: this.pw,
             })

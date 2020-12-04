@@ -15,7 +15,7 @@
 <script>
 import axios from 'axios'
 import swal from 'sweetalert2'
-import cookies from 'js-cookie' // https://www.npmjs.com/package/js-cookie
+import cookies from 'js-cookie'
 
 export default {
     name: "editname-modal",
@@ -40,7 +40,7 @@ export default {
                     name: this.name
                 })
                 axios.patch(
-                    'http://35.202.66.120:8080/patchName', name,
+                    'http://34.64.222.201:8080/patchName', name,
                     {
                     headers: {
                         'Content-Type': 'application/json',
