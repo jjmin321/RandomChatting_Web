@@ -91,7 +91,7 @@ export default {
             const chatLogEl = document.getElementsByClassName('chatLog')[0]
                 setTimeout(() => {
                     chatLogEl.scrollTop = chatLogEl.scrollHeight;
-                }, 10)
+                }, 5)
 
             const inputEl = document.getElementById('message-box')
 
