@@ -34,7 +34,7 @@ export default {
             this.$emit("onClose");
         },
         login: function(id, pw) {
-            axios.post("http://34.64.222.201:8080/signIn", {
+            axios.post("http://34.64.214.238:8080/signIn", {
                 id: this.id,
                 pw: this.pw,
             })

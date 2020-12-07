@@ -40,7 +40,7 @@ export default {
                     name: this.name
                 })
                 axios.patch(
-                    'http://34.64.222.201:8080/patchName', name,
+                    'http://34.64.214.238:8080/patchName', name,
                     {
                     headers: {
                         'Content-Type': 'application/json',
