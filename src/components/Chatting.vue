@@ -151,7 +151,7 @@ export default {
         joinroom() {
             const chatting = this;
             this.isJoined = true;  
-            this.connection = new WebSocket("ws://35.202.66.120:8080/chatting")
+            this.connection = new WebSocket("ws://34.64.214.238:8080/chatting")
             this.connection.onopen = function() {
                 // console.log("정상적으로 연결되었습니다")
             }
